@@ -1,0 +1,32 @@
+<html>
+<head>
+<script src="../js/video.min.js"></script>
+
+<link href="../js/video-js.min.css" rel="stylesheet">
+
+
+</head>
+
+<body>
+
+  <video-js id="my_video_1" class="vjs-default-skin" 
+  controls preload="auto" 
+  autoplay 
+  muted
+   loop
+    playsinline
+     width="1080"
+     >
+    <source src="chrome-extension://omjpjjekjefmdkidigpkhpjnojoadbih/viewer/index.html?manifest=https%3A%2F%2Fres.cloudinary.com%2Fdougsillars%2Fvideo%2Fupload%2Fsp_hd%2Fv1562844864%2Frbsp_launch_720p_gz9zfm.m3u8" type="application/x-mpegURL">
+  </video-js>
+  
+
+  <script>
+    var player = videojs('my_video_1', {
+  		responsive: true
+	});
+  </script>
+
+</body>
+
+</html>
