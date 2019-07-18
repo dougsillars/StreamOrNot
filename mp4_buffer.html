@@ -1,26 +1,14 @@
 <html>
 <head>
-<script src="./js/video.min.js"></script>
-
-<link href="./js/video-js.min.css" rel="stylesheet">
 
 
 </head>
 
 <body>
 
-  <video-js id="my-video" class="vjs-default-skin" 
-  controls preload="auto" 
-  autoplay 
-  muted
-   loop
-    playsinline
-     width="1080"
-     >
-    <source src="https://res.cloudinary.com/dougsillars/video/upload/sp_hd/v1562844864/rbsp_launch_720p_gz9zfm.m3u8" type="application/x-mpegURL">
-  </video-js>
-  <p><p>
-  <div class="buffered">
+  <video id="my-video" width = "1080" autoplay controls muted src="https://res.cloudinary.com/dougsillars/video/upload/v1562844864/rbsp_launch_720p_gz9zfm.mp4"
+
+	  <div class="buffered">
   		<span id="buffered-amount"></span>
 	</div>
 	<div class="progress">
@@ -73,7 +61,7 @@
      if (duration > 0) {
     for (var i = 0; i < myVideo.buffered.length; i++) {
             if (myVideo.buffered.start(myVideo.buffered.length - 1 - i) < myVideo.currentTime) {
-                document.getElementById("buffered-amount").style.width = (myVideo.buffered.end(myVideo.buffered.length - 1 - i) / duration) * 100 + "%";
+                document.getElementById("buffered-amount").style.width = "Buffer %: "+ (myVideo.buffered.end(myVideo.buffered.length - 1 - i) / duration) * 100 + "%";
                 break;
             }
         }
@@ -83,7 +71,7 @@
     myVideo.addEventListener('timeupdate', function() {
     var duration =  myVideo.duration;
     if (duration > 0) {
-      document.getElementById('progress-amount').style.width =  ((myVideo.currentTime / duration)*100) + "%";
+      document.getElementById('progress-amount').style.width = "Playback: "+ ((myVideo.currentTime / duration)*100) + "%";
       }
     });
 
@@ -92,7 +80,6 @@
 	
 	
   </script>
-
 </body>
 
 </html>
