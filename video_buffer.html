@@ -25,7 +25,37 @@
 	<div class="progress">
   		<span id="progress-amount"></span>
 	</div>
+  <style>
+  .buffered {
+  height: 20px;
+  position: relative;
+  background: #555;
+  width: 300px;
+}
 
+#buffered-amount {
+  display: block;
+  height: 100%;
+  background-color: #777;
+  width: 0;
+}
+
+.progress {
+  margin-top: -20px;
+  height: 20px;  
+  position: relative;
+  width: 300px;
+}
+
+#progress-amount {
+  display: block;
+  height: 100%;
+  background-color: #595;
+  width: 0;
+}
+  
+  
+  </style>
   <script>
     var player = videojs('my-video', {
   		responsive: true
