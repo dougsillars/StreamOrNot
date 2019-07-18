@@ -61,7 +61,7 @@
      if (duration > 0) {
     for (var i = 0; i < myVideo.buffered.length; i++) {
             if (myVideo.buffered.start(myVideo.buffered.length - 1 - i) < myVideo.currentTime) {
-                document.getElementById("buffered-amount").style.width = "Buffer %: "+ (myVideo.buffered.end(myVideo.buffered.length - 1 - i) / duration) * 100 + "%";
+                document.getElementById("buffered-amount").style.width =  (myVideo.buffered.end(myVideo.buffered.length - 1 - i) / duration) * 100 + "%";
                 break;
             }
         }
@@ -71,7 +71,7 @@
     myVideo.addEventListener('timeupdate', function() {
     var duration =  myVideo.duration;
     if (duration > 0) {
-      document.getElementById('progress-amount').style.width = "Playback: "+ ((myVideo.currentTime / duration)*100) + "%";
+      document.getElementById('progress-amount').style.width = ((myVideo.currentTime / duration)*100) + "%";
       }
     });
 
