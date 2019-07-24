@@ -430,13 +430,26 @@ div.danger {
        //we've got potential stall situation
        stallWarning =" your video had very little video in the buffer during playback. consider lowering the bitrate."
      }
+     var startWarning="";
+     if (videoStartTime <10){
+     		if(videoStartTime <5){
+     		  startWarning = "Video started in inder 5s. Thats pretty good!";
+     		}else{
+     		  startWarning = "Video started in " +videoStartTime+ " You might watto seeif you can speed this up just a bit.";
+     		
+     		}
+     
+     }else{
+        startWarning = "Videos that take " +videoStartTime+ " are likely to have large abandonment rates. Consider lowering the bitrate to speed startup time.";
+        
+     }
      
      var x = document.createElement("P");                        
      var t = document.createTextNode("total stalls: " +stallCounter + 
                                      " stall time: " + stallTimeSum +
-                                     " buffer Level Danger: " + percentDanger +
+                                     " <br/>Buffer Level Danger: " + percentDanger +
                                      "% Low: " + percentLow +"% Safe: "+ percentSafe +"%"
-                                     + stallWarning);    
+                                     + "<br/>"stallWarning +"<br/>"+startWarning);    
      
      
      x.appendChild(t);                                           
