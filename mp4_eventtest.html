@@ -352,10 +352,10 @@ div.danger {
         
         //number of x points
         //width of 1000
-        //points are duration *4
+        //points are duration *4 (4 times a sec)
         var xlength = 1000/(duration*4);
-        //assume max buffer is 30
-        var ylength = 100/30;
+        //assume max buffer is 40
+        var ylength = 100/40;
         
         var svg = document.getElementById('svg');
         var point = svg.createSVGPoint();
