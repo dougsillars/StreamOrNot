@@ -93,6 +93,7 @@
     height: 200px;
     position: relative;
     width: 1000px;
+    white-space: pre;
   }
   
   .buffered {
@@ -141,6 +142,11 @@ div.danger {
     if (urlParams.has('video')){
     	videoUrl = urlParams.get('video')
     	}
+    //turned off - as this does not call the "ended" api
+    //only test 30s of playback	
+    //videoUrl = videoUrl + "#t=0,30";	
+    
+    
     //set video source	
     document.getElementById("my-video").src	 = videoUrl;
    
@@ -159,6 +165,7 @@ div.danger {
     var videoStartTime =0;
     var stallTimeSum =0;
     var stallCounter = 0;
+    var stallLengthList =[];
     var buffertimer = 0;
     var bufferDanger=0;
     var bufferLow=0;
@@ -235,6 +242,7 @@ div.danger {
      	stallTimeSum+= stallTime;
      	stallCounter+=1;
      	var stall = "Current Stall was: " +stallTime + " ms";
+     	stallLengthList.push(stallTime);
      	var stallTotal = "Total Stall count: " + stallCounter+ " Elapsed Stall time: " + stallTimeSum +" ms";
      	document.getElementById("stallstate").innerHTML = stall;
      	document.getElementById("stallsum").innerHTML = stallTotal;
@@ -253,7 +261,7 @@ div.danger {
      		  startWarning = "Video started in inder 5s. Thats pretty good!";
      		  document.getElementById("timetostart").style.color = "green";
      		}else{
-     		  startWarning = "Video started in " +videoStartTime+ " You might watto seeif you can speed this up just a bit.";
+     		  startWarning = "Video started in " +videoStartTime+ " You might want to see if you can speed this up just a bit by lowering the bitrate";
      		  document.getElementById("timetostart").style.color = "orange";
      		}
      
@@ -394,19 +402,29 @@ div.danger {
        //we've got potential stall situation
        stallWarning =" your video had very little video in the buffer during playback. consider lowering the bitrate."
      }
+     var stallSummaryStats = "";
+     if (stallLengthList.length >0){
+     	//calculate stall stats!!
+        var minStall = Math.min.apply(null,stallLengthList);
+        var maxStall = Math.max.apply(null,stallLengthList);
+        var sum = stallLengthList.reduce(function(a, b) { return a + b; });
+        var avgStall = sum/stallLengthList.length;
+        stallSummaryStats = "Minimum stall: "+ minStall+"ms. <br/>Max Stall: "+maxStall+ 
+                             " ms. <br/>Average Stall length: " +avgStall+" ms<br/>";
+     
+     }
+     
+                            
+     var t = "total stalls: " +stallCounter + " stall time: " + stallTimeSum+"ms <br/>"
+              +stallSummaryStats + 
+              "Buffer Level Danger: " + percentDanger +
+                "% Low: " + percentLow +
+                "% Safe: "+ percentSafe +"%<br/>"
+                +stallWarning +"<br/>"+startWarning;
+    document.getElementById("events").innerHTML = t;
 
+     console.log(t);                                          
      
-     var x = document.createElement("P");                        
-     var t = document.createTextNode("total stalls: " +stallCounter + 
-                                     " stall time: " + stallTimeSum +
-                                     " <br/>Buffer Level Danger: " + percentDanger +
-                                     "% Low: " + percentLow +"% Safe: "+ percentSafe +"%"
-                                     + "<br/>"+stallWarning +"<br/>"+startWarning);    
-     
-     
-     x.appendChild(t);                                           
-     document.getElementById("events").appendChild(x);
-     console.log(t);
     });
     
     
