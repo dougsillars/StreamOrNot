@@ -164,13 +164,13 @@ div.danger {
     var bufferLow=0;
     var bufferSafe=0;
     //metadataloaded at startup
-    
+    var startWarning="";
     
     myVideo.addEventListener('loadedmetadata', function() {
      var metadataLoadTime =  Date.now();
      var onloadtoMetadata = metadataLoadTime - timerStart;
      var x = document.createElement("P");                        
-     var t = document.createTextNode("Video status: " +videoStatus +" Metadata Loaded elapsed: " + onloadtoMetadata);
+     var t = document.createTextNode("Video Metadata Loaded in (ms): " + onloadtoMetadata);
      x.appendChild(t);                                           
      document.getElementById("events").appendChild(x);
      console.log(t);
@@ -183,7 +183,7 @@ div.danger {
      var loadedTime =  Date.now();
      var onloadtoLoaded = loadedTime - timerStart;
      var x = document.createElement("P");                        
-     var t = document.createTextNode("Video status: " +videoStatus +" Video Data Loading elapsed: " + onloadtoLoaded);         
+     var t = document.createTextNode("Video Data Loaded in (ms): " + onloadtoLoaded);         
      x.appendChild(t);                                           
      document.getElementById("events").appendChild(x);
      console.log(t);
@@ -234,8 +234,8 @@ div.danger {
      	//total stall time
      	stallTimeSum+= stallTime;
      	stallCounter+=1;
-     	var stall = "stalled for: " +stallTime;
-     	var stallTotal = "Stall count: " + stallCounter+ " time: " + stallTimeSum;
+     	var stall = "Current Stall was: " +stallTime + " ms";
+     	var stallTotal = "Total Stall count: " + stallCounter+ " Elapsed Stall time: " + stallTimeSum +" ms";
      	document.getElementById("stallstate").innerHTML = stall;
      	document.getElementById("stallsum").innerHTML = stallTotal;
      	console.log(stall);
@@ -247,35 +247,34 @@ div.danger {
         var videoStart = playTime - scriptEvalStart;
         var startupTime = "Video Start Time: " +videoStart;
      	document.getElementById("timetostart").innerHTML = startupTime;
+     	  videoStartTime = videoStart/1000;
+     	 if (videoStartTime <10){
+     		if(videoStartTime <5){
+     		  startWarning = "Video started in inder 5s. Thats pretty good!";
+     		  document.getElementById("timetostart").style.color = "green";
+     		}else{
+     		  startWarning = "Video started in " +videoStartTime+ " You might watto seeif you can speed this up just a bit.";
+     		  document.getElementById("timetostart").style.color = "orange";
+     		}
+     
+     }else{
+        startWarning = "Videos that take " +videoStartTime+ " are likely to have large abandonment rates. Consider lowering the bitrate to speed startup time.";
+        document.getElementById("timetostart").style.color = "red";
+     }
+
+     	
+     	
      	console.log(startupTime);
       }	                            
 
     });
+         
     
-    /*
-    //ID when the video has be played through
-    myVideo.addEventListener('canplaythrough', function() {
-     var loadedTime =  Date.now();
-     var x = document.createElement("P");                        
-     var t = document.createTextNode("Video can Play through: " +loadedTime);    
-     x.appendChild(t);                                           
-     document.getElementById("events").appendChild(x);
-     console.log(t);
-    });
-    
-    */
 //ID when the video is waiting
     myVideo.addEventListener('waiting', function() {
     videoStatus = "waiting"
     document.getElementById("playbackstate").innerHTML = videoStatus;
-     var loadedTime =  Date.now();
-     videoStopTime = loadedTime;
-//     document.getElementById("stoptime").innerHTML = videoStopTime;
-     //var x = document.createElement("P");                        
-     //var t = document.createTextNode("Video status: " +videoStatus + " waiting for data: " +loadedTime);    
-     //x.appendChild(t);                                           
-     //document.getElementById("events").appendChild(x);
-     //console.log(t);
+     videoStopTime =  Date.now();
     });
     
     
@@ -283,22 +282,15 @@ div.danger {
     myVideo.addEventListener('stalled', function() {
     videoStatus = "stalled"
     document.getElementById("playbackstate").innerHTML = videoStatus;
-     var loadedTime =  Date.now();
-     videoStopTime = loadedTime;
- //    document.getElementById("stoptime").innerHTML = videoStopTime;
-     //var x = document.createElement("P");                        
-     //var t = document.createTextNode("stalled: " +loadedTime);    
-     //x.appendChild(t);                                           
-     //document.getElementById("events").appendChild(x);
-     //console.log(t);
+     videoStopTime =  Date.now();   
     });
     
     //ID when the video buffer has been emptied
     myVideo.addEventListener('emptied', function() {
     videoStatus = "empty buffer"
     document.getElementById("playbackstate").innerHTML = videoStatus;
-     var loadedTime =  Date.now();
-     videoStopTime = loadedTime;
+     videoStopTime =  Date.now();
+     
      document.getElementById("stoptime").innerHTML = videoStopTime;
      var x = document.createElement("P");                        
      var t = document.createTextNode("emptied: " +loadedTime);    
@@ -307,28 +299,7 @@ div.danger {
      console.log(t);
     });
         
-    /*
-    //download still in progress
-     myVideo.addEventListener('progress', function() {
-     var duration =  myVideo.duration;
-     console.log("progress" );
-     if (duration > 0) {
-    for (var i = 0; i < myVideo.buffered.length; i++) {
-            if (myVideo.buffered.start(myVideo.buffered.length - 1 - i) < myVideo.currentTime) {
-                var timeInBuffer = ((myVideo.buffered.end(myVideo.buffered.length - 1)) - myVideo.currentTime).toFixed(2);
-                document.getElementById("buffered-amount").style.width = (myVideo.buffered.end(myVideo.buffered.length - 1 - i) / duration) * 100 + "%";
-     			document.getElementById("bufferstate").innerHTML = "Video Buffer (s):" +timeInBuffer;
-     			var playback = "video (s): " +myVideo.currentTime.toFixed(2);
-     			document.getElementById("videotime").innerHTML = playback;
-     			console.log(timeInBuffer );
-     			break;
-                }
-            }
-         }
 
-
-    });*/
-    
     
     //this runs every 250 ms
     myVideo.addEventListener('timeupdate', function() {
@@ -338,16 +309,12 @@ div.danger {
       //console.log(downLink);
     
        var duration =  myVideo.duration;
-    
-    
+        
        //calculate time in buffer
        var timeInBuffer = ((myVideo.buffered.end(myVideo.buffered.length - 1)) - myVideo.currentTime).toFixed(2);
        document.getElementById("buffered-amount").style.width = (myVideo.buffered.end(myVideo.buffered.length - 1 ) / duration) * 100 + "%";
        document.getElementById("bufferstate").innerHTML = "Video Buffer (s):" +timeInBuffer;
        //console.log(timeInBuffer );
-       
-       
-       
        //imma gonna try to add to a svg live
         
         //number of x points
@@ -393,9 +360,6 @@ div.danger {
         document.getElementById("lowvalue").innerHTML = bufferLow;
         document.getElementById("safevalue").innerHTML = bufferSafe;
         
-
-
-        
         //playbacktime
        var playback = "video (s): " +myVideo.currentTime.toFixed(2);
        document.getElementById("videotime").innerHTML = playback;
@@ -430,19 +394,7 @@ div.danger {
        //we've got potential stall situation
        stallWarning =" your video had very little video in the buffer during playback. consider lowering the bitrate."
      }
-     var startWarning="";
-     if (videoStartTime <10){
-     		if(videoStartTime <5){
-     		  startWarning = "Video started in inder 5s. Thats pretty good!";
-     		}else{
-     		  startWarning = "Video started in " +videoStartTime+ " You might watto seeif you can speed this up just a bit.";
-     		
-     		}
-     
-     }else{
-        startWarning = "Videos that take " +videoStartTime+ " are likely to have large abandonment rates. Consider lowering the bitrate to speed startup time.";
-        
-     }
+
      
      var x = document.createElement("P");                        
      var t = document.createTextNode("total stalls: " +stallCounter + 
