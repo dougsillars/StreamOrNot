@@ -312,8 +312,31 @@ div.danger {
     //this runs every 250 ms
     myVideo.addEventListener('timeupdate', function() {
       //network speed
-      var downLink = "Connection Speed: "+ navigator.connection.downlink + " MBPS";
-      document.getElementById("networkspeed").innerHTML =  downLink;
+      //crhoe only
+      //copy n pastin from stackoverflow FTW
+      //https://stackoverflow.com/questions/4565112/javascript-how-to-find-out-if-the-user-browser-is-chrome
+      var isChromium = window.chrome;
+      var winNav = window.navigator;
+      var vendorName = winNav.vendor;
+      var isOpera = typeof window.opr !== "undefined";
+      var isIEedge = winNav.userAgent.indexOf("Edge") > -1;
+       var isIOSChrome = winNav.userAgent.match("CriOS");
+
+      if (isIOSChrome) {
+         // is Google Chrome on IOS
+       } else if(
+            isChromium !== null &&
+             typeof isChromium !== "undefined" &&
+             vendorName === "Google Inc." &&
+             isOpera === false &&
+             isIEedge === false
+       ) {
+           // is Google Chrome
+           var downLink = "Connection Speed: "+ navigator.connection.downlink + " MBPS";
+           document.getElementById("networkspeed").innerHTML =  downLink;
+           } 
+      
+      
       //console.log(downLink);
     
        var duration =  myVideo.duration;
