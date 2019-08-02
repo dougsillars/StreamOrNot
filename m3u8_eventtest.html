@@ -255,7 +255,7 @@
      videoStatus = "playing"
      document.getElementById("playbackstate").innerHTML = videoStatus;
      var playTime =  Date.now();
-     if(stallCounter >0){
+     if(videoStopTime >0){
      	//this could be a stall
      	var stallTime = (playTime - videoStopTime);
      	//total stall time
@@ -269,7 +269,7 @@
      	console.log(stallTotal);
 
      	}
-     else if (stallCounter ==0){
+     else if (videoStopTime ==0){
         //this is the initial startup
 
         var videoStart = playTime - scriptEvalStart;
@@ -291,14 +291,15 @@
            document.getElementById("timetostart").style.color = "red";
         }
         //initial bitrate
-        currentBitrate = qualityLevels[qualityLevels.selectedIndex].bitrate;
-    	currentHeight = qualityLevels[qualityLevels.selectedIndex].height;
-    	currentWidth = qualityLevels[qualityLevels.selectedIndex].width;
-        var x = document.createElement("P");                        
-        var t = document.createTextNode("Stream bitrate: " +currentBitrate + " " + currentHeight +"x"+currentWidth);    
-        x.appendChild(t);                                           
-        document.getElementById("events").appendChild(x);
-        console.log(t);
+        
+        //currentBitrate = qualityLevels[qualityLevels.selectedIndex].bitrate;
+    	//currentHeight = qualityLevels[qualityLevels.selectedIndex].height;
+    	//currentWidth = qualityLevels[qualityLevels.selectedIndex].width;
+        //var x = document.createElement("P");                        
+        //var t = document.createTextNode("Stream bitrate: " +currentBitrate + " " + currentHeight +"x"+currentWidth);    
+        //x.appendChild(t);                                           
+        //document.getElementById("events").appendChild(x);
+        //console.log(t);
     }
 
                                          
@@ -310,7 +311,7 @@
       videoStatus = "playing"
       document.getElementById("playbackstate").innerHTML = videoStatus;
      var playTime =  Date.now();
-     if(stallCounter >0){
+     if(videoStopTime >0){
      	//this could be a stall
      	var stallTime = (playTime - videoStopTime);
      	//total stall time
@@ -325,7 +326,7 @@
      	console.log(stallTotal);
 
      	}
-     else if (stallCounter ==0){
+     else if (videoStopTime ==0){
         //this is the initial startup
         var videoStart = playTime - scriptEvalStart;
         var startupTime = "Video Start Time: " +videoStart;
@@ -346,6 +347,7 @@
             document.getElementById("timetostart").style.color = "red";
          }
        //initial bitrate
+       
      currentBitrate = qualityLevels[qualityLevels.selectedIndex].bitrate;
      currentHeight = qualityLevels[qualityLevels.selectedIndex].height;
      currentWidth = qualityLevels[qualityLevels.selectedIndex].width;

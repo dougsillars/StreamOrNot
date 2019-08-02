@@ -193,7 +193,7 @@
      videoStatus = "playing"
      document.getElementById("playbackstate").innerHTML = videoStatus;
      var playTime =  Date.now();
-     if(stallCounter >0){
+     if(videoStopTime >0){
      	//this could be a stall
      	var stallTime = (playTime - videoStopTime);
      	//total stall time
@@ -207,7 +207,7 @@
      	console.log(stallTotal);
 
      	}
-     else if (stallCounter ==0){
+     else if (videoStopTime ==0){
         //this is the initial startup
 
         var videoStart = playTime - scriptEvalStart;
@@ -225,7 +225,7 @@
       videoStatus = "playing"
       document.getElementById("playbackstate").innerHTML = videoStatus;
      var playTime =  Date.now();
-     if(stallCounter >0){
+     if(videoStopTime >0){
      	//this could be a stall
      	var stallTime = (playTime - videoStopTime);
      	//total stall time
@@ -240,7 +240,7 @@
      	console.log(stallTotal);
 
      	}
-     else if (stallCounter ==0){
+     else if (videoStopTime ==0){
         //this is the initial startup
         var videoStart = playTime - scriptEvalStart;
         var startupTime = "Video Start Time: " +videoStart;
