@@ -210,13 +210,14 @@
     	var cumulativeBytes=0;
     	var bytesAtBitrateChange=0;
     	var dataPerBitrate =[];
+    	var bitrateChangeTime=0;
 
     	//if streaming, set videojs player
     	if (videoType == "stream"){
     	  
       	    myVideo = videojs('my-video', {
-  			responsive: true,
-  			enableLowInitialPlaylist: true
+  			responsive:true,
+  			html5:{hls: {enableLowInitialPlaylist:true}}
 		  });
           let qualityLevels = myVideo.qualityLevels();
          // myVideo.on('play', playStart);
@@ -459,10 +460,11 @@
           
          //how many bytes have we used?
          if(videoExt =="m3u8"){
-           cumulativeBytes = myVideo.tech().hls.stats.mediaBytesTransferred; 
+           cumulativeBytes = myVideo.tech({IWillNotUseThisInPlugins:true}).hls.stats.mediaBytesTransferred; 
          } 
 
          let qualityLevels = myVideo.qualityLevels();
+         //console.log(qualityLevels);
          if(currentBitrate >0){
            //see if the bitrate has changed?
            var oldBitrate = currentBitrate;
@@ -472,13 +474,14 @@
               //how many bytes were streamed at old bitrate?
               var bytesAtOldBitrate = cumulativeBytes - bytesAtBitrateChange;
               //store bitrate and data usage in array
-              dataPerBitrate.push([oldBitrate, bytesAtOldBitrate]);
+              dataPerBitrate.push([oldBitrate, bytesAtOldBitrate, bitrateChangeTime]);
               //now update information in variables
               currentHeight = qualityLevels[qualityLevels.selectedIndex].height;
     	      currentWidth = qualityLevels[qualityLevels.selectedIndex].width;
+    	      bitrateChangeTime = videoCurrentTime.toFixed(2);
     	      //update events div on page
     	      var x = document.createElement("P");                        
-              var t = document.createTextNode("Stream bitrate: " +currentBitrate + " " + currentHeight +"x"+currentWidth);    
+              var t = document.createTextNode("Time: "+bitrateChangeTime+" bitrate: " +currentBitrate + " " + currentHeight +"x"+currentWidth);    
               x.appendChild(t);                                           
               document.getElementById("events").appendChild(x);
               console.log('Quality Level changed!');
@@ -571,14 +574,14 @@
         cumulativeBytes = myVideo.tech().hls.stats.mediaBytesTransferred;      
         var bytesAtLastBitrate = cumulativeBytes - bytesAtBitrateChange;
         //store bitrate and data usage in array
-        dataPerBitrate.push([currentBitrate, bytesAtLastBitrate]);
+        dataPerBitrate.push([currentBitrate, bytesAtLastBitrate, bitrateChangeTime]);
 
      	//calculate stall stats!!
         var bitrateChangeCount = dataPerBitrate.length;
         console.log(dataPerBitrate);
         var printBitrateArray="";
         for(var i=0;i<bitrateChangeCount;i++){
-             printBitrateArray += "Bitrate: "+ dataPerBitrate[i][0]+ " Bytes: "+dataPerBitrate[i][1] + "<br/>";        
+             printBitrateArray += "Time: "+dataPerBitrate[i][2]+" Bitrate: "+ dataPerBitrate[i][0]+ " Bytes: "+dataPerBitrate[i][1] + "<br/>";        
            }
         
         
