@@ -5,7 +5,11 @@
     </script>
     <script src="./js/video.min.js"></script>
     <link href="./js/video-js.min.css" rel="stylesheet">
+    <!-- quality levels for streaming -->
     <script src="./js/videojs-contrib-quality-levels.min.js"></script>
+    <!-- DASH -->
+    <script src="./js/dash.all.min.js"></script>
+    <script src="./js/videojs-dash.min.js"></script>
 
 
 </head>
@@ -160,7 +164,14 @@
       //streaming video - so add video js tags to the video div
       console.log("streaming video")
       videoType = "stream";
-      document.getElementById("video").innerHTML="<video-js id=\"my-video\" class=\"vjs-default-skin\" controls preload=\"auto\"  autoplay muted playsinline width=\"1080\"><source id=\"videosrc\" src=\""+videoUrl +"\" type=\"application/x-mpegURL\"></video-js>";
+      var streamType="";
+      if (videoExt =="m3u8"){
+      streamType = "application/x-mpegURL";
+      }else{
+      streamType = "application/dash+xml";
+      
+      }
+      document.getElementById("video").innerHTML="<video-js id=\"my-video\" class=\"vjs-default-skin\" controls preload=\"auto\"  autoplay muted playsinline width=\"1080\"><source id=\"videosrc\" src=\""+videoUrl +"\" type=\""+streamType+"\"></video-js>";
     }else{
       //static video = so add html5 video tags to video div
       console.log("html 5 video"); 
@@ -216,7 +227,13 @@
           myVideo.on('stalled', stalled);
           myVideo.on('emptied', emptied);   
           myVideo.on('ended', ended);       
-
+           if (videoExt =="mpd") {
+            //no bitrate info for dash yet
+            var x = document.createElement("P");                        
+            var t = document.createTextNode("no bitrate data for DASH yet...");    
+            x.appendChild(t);                                           
+            document.getElementById("events").appendChild(x);
+           } 
           }
         else{
           myVideo = document.getElementById('my-video');
@@ -441,7 +458,10 @@
        if(videoType=="stream"){
           
          //how many bytes have we used?
-         cumulativeBytes = myVideo.tech().hls.stats.mediaBytesTransferred;      
+         if(videoExt =="m3u8"){
+           cumulativeBytes = myVideo.tech().hls.stats.mediaBytesTransferred; 
+         } 
+
          let qualityLevels = myVideo.qualityLevels();
          if(currentBitrate >0){
            //see if the bitrate has changed?
