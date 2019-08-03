@@ -205,6 +205,7 @@
     	  
       	    myVideo = videojs('my-video', {
   			responsive: true,
+  			enableLowInitialPlaylist: true
 		  });
           let qualityLevels = myVideo.qualityLevels();
          // myVideo.on('play', playStart);
@@ -277,15 +278,15 @@
         videoStartTime = videoStart/1000;
      	if (videoStartTime <10){
      		if(videoStartTime <5){
-     		  startWarning = "Video started in inder 5s. Thats pretty good!";
+     		  startWarning = "Video started in under 5s. Thats pretty good!";
      		  document.getElementById("timetostart").style.color = "green";
      		}else{
-     		  startWarning = "Video started in " +videoStartTime+ " You might want to see if you can speed this up just a bit by lowering the bitrate";
+     		  startWarning = "Video started in " +videoStartTime+ "s. You might want to see if you can speed this up just a bit by lowering the bitrate";
      		  document.getElementById("timetostart").style.color = "orange";
      		}
      
         }else{
-           startWarning = "Videos that take " +videoStartTime+ " to start up are likely to have large abandonment rates. Consider lowering the bitrate to speed startup time.";
+           startWarning = "Videos that take " +videoStartTime+ " seconds to start up are likely to have large abandonment rates. Consider lowering the bitrate to speed startup time.";
            document.getElementById("timetostart").style.color = "red";
         }
         //initial bitrate
@@ -544,10 +545,24 @@
      var bitrateStats="";
      //bitrate stats
      if (dataPerBitrate.length >0){
+        //add in the last bitrate change
+        let qualityLevels = myVideo.qualityLevels();
+        currentBitrate = qualityLevels[qualityLevels.selectedIndex].bitrate;
+        cumulativeBytes = myVideo.tech().hls.stats.mediaBytesTransferred;      
+        var bytesAtLastBitrate = cumulativeBytes - bytesAtBitrateChange;
+        //store bitrate and data usage in array
+        dataPerBitrate.push([currentBitrate, bytesAtLastBitrate]);
+
      	//calculate stall stats!!
         var bitrateChangeCount = dataPerBitrate.length;
         console.log(dataPerBitrate);
-        bitrateStats = "Bitrate changed " +bitrateChangeCount+ " times during playback, here are the bitrate and byte usage:<br/>" + dataPerBitrate.toString();
+        var printBitrateArray="";
+        for(var i=0;i<bitrateChangeCount;i++){
+             printBitrateArray += "Bitrate: "+ dataPerBitrate[i][0]+ " Bytes: "+dataPerBitrate[i][1] + "<br/>";        
+           }
+        
+        
+        bitrateStats = "Bitrate changed " +bitrateChangeCount+ " times during playback, here are the bitrate and byte usage:<br/>" + printBitrateArray;
      }
                             
      var t = "total stalls: " +stallCounter + " stall time: " + stallTimeSum+"ms <br/>"
