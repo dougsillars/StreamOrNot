@@ -620,7 +620,8 @@
         imageCount = Math.min(imageCount, 99);
         for(var i=0;i<imageCount;i++){
            if(i<10){
-              if(i%2==0){
+           //only a few images to load before the video.. most to load afterward
+              if(i%4==0){
                 imageSource1+= "<img width =\"10\" height = \"10\" src=\"https://res.cloudinary.com/dougsillars/image/upload/q_auto,w_100"+i+"/v1564860764/beach_sbzfma.jpg\">";
               }else{
                 imageSource2+= "<img width =\"10\" height = \"10\" src=\"https://res.cloudinary.com/dougsillars/image/upload/q_auto,w_100"+i+"/v1564860764/beach_sbzfma.jpg\">";
