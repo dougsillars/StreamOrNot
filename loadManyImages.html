@@ -1,0 +1,35 @@
+
+<html>
+<body>
+<div id="images" width="0" height="0" >
+</div>
+
+
+<script>
+    var count =20;
+    var imageSource="";
+    //only allow 100 images
+    count = Math.min(count, 99);
+    for(var i=0;i<count;i++){
+      if(i<10){
+        imageSource+= "<img width =\"10\" height = \"10\" src=\"https://res.cloudinary.com/dougsillars/image/upload/q_auto,w_100"+i+"/v1564860764/beach_sbzfma.jpg\">"
+      }else{
+        imageSource+= "<img width =\"10\" height = \"10\" src=\"https://res.cloudinary.com/dougsillars/image/upload/q_auto,w_10"+i+"/v1564860764/beach_sbzfma.jpg\">"
+      }
+      var fibCount = Math.floor(Math.random()*30);
+      fibonacci(fibCount);  
+    }
+    document.getElementById("images").innerHTML = imageSource;
+    
+    
+    
+    function fibonacci(num) {
+      if (num <= 1) return 1;
+      return fibonacci(num - 1) + fibonacci(num - 2);
+    }
+    
+    
+</script>
+
+</body>
+</html>

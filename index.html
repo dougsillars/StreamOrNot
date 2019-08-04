@@ -15,15 +15,12 @@
 </head>
 
 <body>
-   <div id="video">
-    
-   </div>
-  <p>
-
    
-  
+   <div id="video">
+   </div>
+   <div id="images1"></div>
   <p>
-
+  <p>
    <div  class="buffered">
   		<span id="buffered-amount"></span>
 	</div>
@@ -88,6 +85,7 @@
 	   	   <div id="stoptime">
 	   </div>
      </h2>
+     <div id="images2"></div>
      <div id="events">
 	 </div>
 	 	
@@ -142,10 +140,15 @@
    
    
     //get a video url from the query string. Fall back to NASA rocket if no video
+    //load images and run JS to simulate other processes
+    var imageCount=0;
     var videoUrl = "https://res.cloudinary.com/dougsillars/video/upload/sp_hd/v1562844864/rbsp_launch_720p_gz9zfm.m3u8";
     var urlParams = new URLSearchParams(window.location.search);
     if (urlParams.has('video')){
     	videoUrl = urlParams.get('video')
+    	}
+    if (urlParams.has('imagecount')){
+    	imageCount = urlParams.get('imagecount')
     	}
     //testing streams
     //html5
@@ -179,11 +182,15 @@
       document.getElementById("video").innerHTML="<video id=\"my-video\" class=\"vjs-default-skin\" controls preload=\"auto\"  autoplay muted playsinline width=\"1080\"><source id=\"videosrc\" src=\""+videoUrl +"\"></video>";
     }
 
+
+
+
     //onloadstuff
     window.onload = function(){
-
+        
+       
+        
     	var videoStatus = "Not Started";
-
     	//set initial state
     	document.getElementById("playbackstate").innerHTML = videoStatus;
         //variables we need
@@ -602,7 +609,44 @@
      console.log(t);                                          
      
     }
-   
+    loadImages(imageCount);
+    function loadImages(imageCount){
+    //load a bunch of images
+        var imageSource1="";
+        var imageSource2="";
+        var mod2 = 0;
+        //only allow 100 images
+        //images are around 100 kb each     
+        imageCount = Math.min(imageCount, 99);
+        for(var i=0;i<imageCount;i++){
+           if(i<10){
+              if(i%2==0){
+                imageSource1+= "<img width =\"10\" height = \"10\" src=\"https://res.cloudinary.com/dougsillars/image/upload/q_auto,w_100"+i+"/v1564860764/beach_sbzfma.jpg\">";
+              }else{
+                imageSource2+= "<img width =\"10\" height = \"10\" src=\"https://res.cloudinary.com/dougsillars/image/upload/q_auto,w_100"+i+"/v1564860764/beach_sbzfma.jpg\">";
+              }
+            }else{
+              if(i%2==0){
+                imageSource1+= "<img width =\"10\" height = \"10\" src=\"https://res.cloudinary.com/dougsillars/image/upload/q_auto,w_10"+i+"/v1564860764/beach_sbzfma.jpg\">";
+              }else{
+                imageSource2+= "<img width =\"10\" height = \"10\" src=\"https://res.cloudinary.com/dougsillars/image/upload/q_auto,w_10"+i+"/v1564860764/beach_sbzfma.jpg\">";
+              }
+            
+            }
+            //i picked 30 as the multiplier randomly
+            var fibCount = Math.floor(Math.random()*30);
+            fibonacci(fibCount);  
+         }
+     
+         
+         document.getElementById("images1").innerHTML = imageSource1;
+         document.getElementById("images2").innerHTML = imageSource2;
+    }
+        //fibnonacci sequence adds random JS processing to the fun
+        function fibonacci(num) {
+           if (num <= 1) return 1;
+           return fibonacci(num - 1) + fibonacci(num - 2);
+         }
    }
    
 	
