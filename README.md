@@ -15,12 +15,15 @@
 >https://dougsillars.github.io/StreamOrNot/?video=https://res.cloudinary.com/dougsillars/video/upload/v1533591785/depend_p2ryou.mp4
 2. Videos rarely load alone on the web, and there are other assets competing for bandwidth.
     1. Add 'imagecount' query parameter.  Values can be from 0 to 99.  This will download the specified number of images while the video is playing back.
->https://dougsillars.github.io/StreamOrNot/?imagecount=25&video=https://res.cloudinary.com/dougsillars/video/upload/v1533591785/depend_p2ryou.mp4
     2. You can see the images load right below the video, and again below all the text as 10x10 images.
+    >https://dougsillars.github.io/StreamOrNot/?imagecount=25&video=https://res.cloudinary.com/dougsillars/video/upload/v1533591785/depend_p2ryou.mp4
+
 3. Oh, and JavaScript parsing will be going on - slowing down the browser, CPU, etc.
     1. Add js=true query parameter.  This will compute a recursive fibonacci every 250ms during playback to simulate JS execution.
+    2. You can see the parse times in the console.
 >https://dougsillars.github.io/StreamOrNot/?js=true&imagecount=25&video=https://res.cloudinary.com/dougsillars/video/upload/v1533591785/depend_p2ryou.mp4
-    2. You can see the parse imes in the console.
+    
+
   
   
 ### What Does It All Mean?
