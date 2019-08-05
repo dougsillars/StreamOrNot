@@ -26,12 +26,12 @@
 1. The bar at the top shows how far the playback has gone (green), and the amount of video in the buffer (gray).  Code borrowed from [MDN](https://developer.mozilla.org/en-US/docs/Web/Guide/Audio_and_video_delivery/buffering_seeking_time_ranges)
 2. On Chrome, the connection speed is shown (navigation.connection is Chrome only)
 3. Video playback state. Possible options are 
-..1. Not Started
-..2. Playing
-..3. waiting
-..4. stalled
-..5. empty buffer
-..6. ended
+  1. Not Started
+  2. Playing
+  3. waiting
+  4. stalled
+  5. empty buffer
+  6. ended
 4. Video Start time.  Measured from start of JS execution to when the video begins playing.  The longer this takes, the text color changes to yellow and then red.
 5. Playback time (in seconds)
 6. Remaining time in buffer (in seconds)
@@ -39,10 +39,13 @@
 
 ![buffering chart](/images/buffer1.png)
 
-This chart shows the amount of video in the downloaded buffer (video that is local and ready to play.)  The more video in the buffer, the less likely there will be a stall.  IN the chart, if there is more than 10s of video in the buffer, the line is green. If there is between 5-10s in the buffer, the line is yellow (low).  If there is less than 5s in the buffer, the line is red (danger).
+This chart shows the amount of video in the downloaded buffer (video that is local and ready to play.)  In the above chart, there is an initial big jump in data in the buffer, and small subsequent jumps that 'top off' the buffer as it slowly empties.
+
+The more video that is in the buffer, the less likely there will be a stall.  In the chart, if there is more than 10s of video in the buffer, the line is green. If there is between 5-10s in the buffer, the line is yellow (low).  If there is less than 5s in the buffer, the line is red (danger).
 
 Where did I come up with these metrics for danger and low? I made a good educated guess.
 
 ![buffering chart with very low levels](/images/stall1.png)
+
 When the buffer level is really low, there is a possibility that it will empty, and the video will stall.
 The most recent stall length is displayed, as is the total count of stalls (and the total elapsed time)
