@@ -224,7 +224,7 @@
     	var bytesAtBitrateChange=0;
     	var dataPerBitrate =[];
     	var bitrateChangeTime=0;
-
+        var jsInterval;
     	//if streaming, set videojs player
     	if (videoType == "stream"){
     	  
@@ -612,7 +612,8 @@
                 +stallWarning +"<br/>"+startWarning +"<br/>"+ bitrateStats;
     document.getElementById("events").innerHTML = t;
 
-     console.log(t);                                          
+     console.log(t); 
+     clearInterval(jsInterval);                                         
      
     }
     loadImages(imageCount);
@@ -650,7 +651,7 @@
     if(js){
       var fib="";
       //just adding random JS processing every 250ms
-         setInterval(function(){
+        jsInterval= setInterval(function(){
                   var delay = Math.random()*35;
                   var fibStart = Date.now();
                   fibonacci(delay);
