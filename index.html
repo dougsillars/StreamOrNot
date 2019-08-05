@@ -142,6 +142,7 @@
     //get a video url from the query string. Fall back to NASA rocket if no video
     //load images and run JS to simulate other processes
     var imageCount=0;
+    var js = false;
     var videoUrl = "https://res.cloudinary.com/dougsillars/video/upload/sp_hd/v1562844864/rbsp_launch_720p_gz9zfm.m3u8";
     var urlParams = new URLSearchParams(window.location.search);
     if (urlParams.has('video')){
@@ -150,6 +151,11 @@
     if (urlParams.has('imagecount')){
     	imageCount = urlParams.get('imagecount')
     	}
+    if (urlParams.has('js')){
+    	js = urlParams.get('js')
+    }	
+   
+
     //testing streams
     //html5
     //videoUrl = "https://res.cloudinary.com/dougsillars/video/upload/v1546731047/campus5_ou5pmy.mp4";
@@ -641,7 +647,22 @@
          document.getElementById("images1").innerHTML = imageSource1;
          document.getElementById("images2").innerHTML = imageSource2;
     }
-
+    if(js){
+      var fib="";
+      //just adding random JS processing every 250ms
+         setInterval(function(){
+                  var delay = Math.random()*35;
+                  var fibStart = Date.now();
+                  fibonacci(delay);
+                  var fibEnd = Date.now();
+                  var fibTime = fibEnd-fibStart;
+                  console.log("fibcalc ran for: " + fibTime)}, 250);
+    }
+    //fibnonacci sequence adds random JS processing to the fun
+        function fibonacci(num) {
+           if (num <= 1) return 1;
+           return fibonacci(num - 1) + fibonacci(num - 2);
+         }
    }
    
 	
