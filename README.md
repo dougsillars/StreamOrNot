@@ -14,13 +14,13 @@
 1. Add 'video' query parameter to the url pointing to your video to get stats on how well your video plays back
 >https://dougsillars.github.io/StreamOrNot/?video=https://res.cloudinary.com/dougsillars/video/upload/v1533591785/depend_p2ryou.mp4
 2. Videos rarely load alone on the web, and there are other assets competing for bandwidth.
-  1. Add 'imagecount' query parameter.  Values can be from 0 to 99.  This will download the specified number of images while the video is playing back.
+    1. Add 'imagecount' query parameter.  Values can be from 0 to 99.  This will download the specified number of images while the video is playing back.
 >https://dougsillars.github.io/StreamOrNot/?imagecount=25&video=https://res.cloudinary.com/dougsillars/video/upload/v1533591785/depend_p2ryou.mp4
-  2. You can see the images load right below the video, and again below all the text as 10x10 images.
+    2. You can see the images load right below the video, and again below all the text as 10x10 images.
 3. Oh, and JavaScript parsing will be going on - slowing down the browser, CPU, etc.
-  1. Add js=true query parameter.  This will compute a recursive fibonacci every 250ms during playback to simulate JS execution.
+    1. Add js=true query parameter.  This will compute a recursive fibonacci every 250ms during playback to simulate JS execution.
 >https://dougsillars.github.io/StreamOrNot/?js=true&imagecount=25&video=https://res.cloudinary.com/dougsillars/video/upload/v1533591785/depend_p2ryou.mp4
-  2. You can see the parse imes in the console.
+    2. You can see the parse imes in the console.
   
   
 ### What Does It All Mean?
@@ -30,12 +30,12 @@
 1. The bar at the top shows how far the playback has gone (green), and the amount of video in the buffer (gray).  Code borrowed from [MDN](https://developer.mozilla.org/en-US/docs/Web/Guide/Audio_and_video_delivery/buffering_seeking_time_ranges)
 2. On Chrome, the connection speed is shown (navigation.connection is Chrome only)
 3. Video playback state. Possible options are 
-  1. Not Started
-  2. Playing
-  3. waiting
-  4. stalled
-  5. empty buffer
-  6. ended
+    1. Not Started
+    2. Playing
+    3. waiting
+    4. stalled
+    5. empty buffer
+    6. ended
 4. Video Start time.  Measured from start of JS execution to when the video begins playing.  The longer this takes, the text color changes to yellow and then red.
 5. Playback time (in seconds)
 6. Remaining time in buffer (in seconds)
