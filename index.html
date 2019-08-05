@@ -207,6 +207,7 @@
     	var stallTimeSum =0;
     	var stallCounter = 0;
     	var stallLengthList =[];
+    	var stallTimeList = [];
     	var bufferTimer = 0;
     	var bufferDanger=0;
     	var bufferLow=0;
@@ -291,6 +292,7 @@
      	stallTimeSum+= stallTime;
      	stallCounter+=1;
      	stallLengthList.push(stallTime);
+     	stallTimeList.push(myVideo.currentTime());
      	var stall = "stalled at:" + myVideo.currentTime()+"s for: " +stallTime;
      	var stallTotal = "Stall count: " + stallCounter+ " time: " + stallTimeSum;
      	document.getElementById("stallstate").innerHTML = stall;
@@ -577,8 +579,12 @@
         var maxStall = Math.max.apply(null,stallLengthList);
         var sum = stallLengthList.reduce(function(a, b) { return a + b; });
         var avgStall = sum/stallLengthList.length;
+        var stallTimeStat="";
+        for (var l=0;l<stallLengthList.length; l++){
+           stallTimeStat+= "Stalled at: (s): "+ stallTimeList[l].toFixed(2) + " Stall Length: "+stallLengthList[l]+"<br/>";
+        }
         stallSummaryStats = "Minimum stall: "+ minStall+"ms. Max Stall: "+maxStall+ 
-                             " ms. Average Stall length: " +avgStall+" ms";
+                             " ms. Average Stall length: " +avgStall.toFixed(2)+" ms<br/>"+stallTimeStat +"<br/><br/>";
      
      }
      var bitrateStats="";
@@ -603,6 +609,8 @@
         
         bitrateStats = "Bitrate changed " +bitrateChangeCount+ " times during playback, here are the bitrate and byte usage:<br/>" + printBitrateArray;
      }
+     
+
                             
      var t = "total stalls: " +stallCounter + " stall time: " + stallTimeSum+"ms <br/>"
               +stallSummaryStats + 
