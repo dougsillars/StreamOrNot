@@ -45,4 +45,4 @@ Where did I come up with these metrics for danger and low? I made a good educate
 
 ![buffering chart with very low levels](/images/stall1.png)
 When the buffer level is really low, there is a possibility that it will empty, and the video will stall.
-
+The most recent stall length is displayed, as is the total count of stalls (and teh total elapsed time)
