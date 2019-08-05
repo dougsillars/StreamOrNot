@@ -29,7 +29,7 @@
 	</div>
 	
 	
-		<h2>
+	<h1>
        <div id="networkspeed"> 
 	   </div>
 	   <div id="playbackstate"> 
@@ -84,7 +84,7 @@
 	   </div>
 	   	   <div id="stoptime">
 	   </div>
-     </h2>
+     </h1>
      <div id="images2"></div>
      <div id="events">
 	 </div>
@@ -305,8 +305,7 @@
         //this is the initial startup only run it once
         if  (videoStartTime>=0){
            var videoStart = playTime - scriptEvalStart;
-           var startupTime = "Video Start Time: " +videoStart;
-     	   document.getElementById("timetostart").innerHTML = startupTime;
+           var startupTime = "Video Start Time: " +videoStart;   
      	   console.log(startupTime);
            videoStartTime = videoStart/1000;
         }
@@ -323,6 +322,7 @@
            startWarning = "Videos that take " +videoStartTime+ " seconds to start up are likely to have large abandonment rates. Consider lowering the bitrate to speed startup time.";
            document.getElementById("timetostart").style.color = "red";
         }
+        document.getElementById("timetostart").innerHTML = startupTime;
         if (videoType =="stream"){
            //initial bitrate
            let qualityLevels = myVideo.qualityLevels();
