@@ -1,8 +1,8 @@
 # StreamOrNot
 
-##A set of testing tools to determine how well your video will stream.
+## A set of testing tools to determine how well your video will stream.
 
-##Sample Usage:  
+## Sample Usage:  
 
 1. Open the [Stream or not](https://dougsillars.github.io/StreamOrNot/) page.
 2. A video from [NASA](https://nasa.gov/multimedia/hd/index.html) will begin to play.
@@ -10,7 +10,7 @@
 4. When the video completes, a summary is presented
 5. Test the video at different network speeds using [devTools](https://css-tricks.com/throttling-the-network/) or a proxy like Charles.
 
-##Advanced Features
+## Advanced Features
 1. Add 'video' query parameter to the url pointing to your video to get stats on how well your video plays back
 > https://dougsillars.github.io/StreamOrNot/?video=https://res.cloudinary.com/dougsillars/video/upload/v1533591785/depend_p2ryou.mp4
 2. Videos rarely load alone on the web, and there are other assets competing for bandwidth.
@@ -19,7 +19,7 @@
 ..1. Add js=true query parameter.  This will compute a recursive fibonacci every 250ms during playback to simulate JS execution.
 
 
-###What Does It All Mean?
+### What Does It All Mean?
 
 ![screenshot of top entries](/images/View1.png)
 
@@ -45,4 +45,4 @@ Where did I come up with these metrics for danger and low? I made a good educate
 
 ![buffering chart with very low levels](/images/stall1.png)
 When the buffer level is really low, there is a possibility that it will empty, and the video will stall.
-The most recent stall length is displayed, as is the total count of stalls (and teh total elapsed time)
+The most recent stall length is displayed, as is the total count of stalls (and the total elapsed time)
