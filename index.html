@@ -88,7 +88,8 @@
      <div id="images2"></div>
      <div id="events">
 	 </div>
-	 	
+	<div id="WPTData" style="display:none">
+	 </div>	
   <style>
     .events{
       height: 200px;
@@ -225,6 +226,7 @@
     	var bytesAtBitrateChange=0;
     	var dataPerBitrate =[];
     	var bitrateChangeTime=0;
+    	var bitrateChangeCount = 0;
         var jsInterval;
     	//if streaming, set videojs player
     	if (videoType == "stream"){
@@ -567,7 +569,7 @@
      //lets say if 5% of video playback is in danger, or 10% is in low ist should be flagged
      var dangerFlag = percentDanger - expectedDanger;
      var lowFlag = percentLow- expectedLow;
-     var stallWarning = "";
+     var stallWarning = "empty";
      if(dangerFlag >5 || lowFlag >10){
        //we've got potential stall situation
        stallWarning =" your video had very little video in the buffer during playback. consider lowering the bitrate."
@@ -579,7 +581,7 @@
         var maxStall = Math.max.apply(null,stallLengthList);
         var sum = stallLengthList.reduce(function(a, b) { return a + b; });
         var avgStall = sum/stallLengthList.length;
-        var stallTimeStat="";
+        var stallTimeStat=" ";
         for (var l=0;l<stallLengthList.length; l++){
            stallTimeStat+= "Stalled at: (s): "+ stallTimeList[l].toFixed(2) + " Stall Length: "+stallLengthList[l]+"<br/>";
         }
@@ -599,7 +601,7 @@
         dataPerBitrate.push([currentBitrate, bytesAtLastBitrate, bitrateChangeTime]);
 
      	//calculate stall stats!!
-        var bitrateChangeCount = dataPerBitrate.length;
+        bitrateChangeCount = dataPerBitrate.length;
         console.log(dataPerBitrate);
         var printBitrateArray="";
         for(var i=0;i<bitrateChangeCount;i++){
@@ -619,8 +621,21 @@
                 "% Safe: "+ percentSafe +"%<br/>"
                 +stallWarning +"<br/>"+startWarning +"<br/>"+ bitrateStats;
     document.getElementById("events").innerHTML = t;
-
-     console.log(t); 
+    
+    var jsonResults = "{\"stallTotal\":"+stallCounter 
+                       + ", \"stallTotalTime\":"+  stallTimeSum  
+                       + ", \"minStall\":"+ minStall
+                       + ", \"maxStall\":"+ maxStall
+                       + ", \"avgStall\":"+ avgStall.toFixed(2)
+                       + ", \"bufferPercentDanger\":"+ percentDanger
+                       + ", \"bufferPercentLow\":"+ percentLow
+                       + ", \"bufferPercentSafe\":"+ percentSafe
+                       + ", \"videoStartTime\":" +videoStartTime
+                       + ", \"bitrateChangeCount\":" + bitrateChangeCount
+                       +"}";
+    document.getElementById("WPTData").innerHTML = jsonResults;
+    jsonResults
+     console.log(jsonResults); 
      clearInterval(jsInterval);                                         
      
     }
