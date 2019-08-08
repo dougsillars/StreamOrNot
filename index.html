@@ -298,8 +298,15 @@
      	stallTimeSum+= stallTime;
      	stallCounter+=1;
      	stallLengthList.push(stallTime);
-     	stallTimeList.push(myVideo.currentTime());
-     	var stall = "stalled at:" + myVideo.currentTime()+"s for: " +stallTime;
+     	var currentTime;
+     	if (videoType=="stream"){
+     	  currentTime = myVideo.currentTime();
+     	}else{
+     	  currentTime = myVideo.currentTime;
+     	}
+     	
+     	stallTimeList.push(currentTime);
+     	var stall = "stalled at:" + currentTime+"s for: " +stallTime;
      	var stallTotal = "Stall count: " + stallCounter+ " time: " + stallTimeSum;
      	document.getElementById("stallstate").innerHTML = stall;
      	document.getElementById("stallsum").innerHTML = stallTotal;
