@@ -229,6 +229,9 @@
     	var bitrateChangeTime=0;
     	var bitrateChangeCount = 0;
         var jsInterval;
+        var minStall=0;
+        var maxStall = 0;
+        var avgStall=0;
     	//if streaming, set videojs player
     	if (videoType == "stream"){
     	  
@@ -578,10 +581,10 @@
      var stallSummaryStats = "";
      if (stallLengthList.length >0){
      	//calculate stall stats!!
-        var minStall = Math.min(Math.min.apply(null,stallLengthList),0);
-        var maxStall = Math.max(Math.max.apply(null,stallLengthList),0);
+        minStall = Math.min(Math.min.apply(null,stallLengthList),0);
+        maxStall = Math.max(Math.max.apply(null,stallLengthList),0);
         var sum = stallLengthList.reduce(function(a, b) { return a + b; });
-        var avgStall = Math.min(sum/stallLengthList.length,0);
+        avgStall = Math.min(sum/stallLengthList.length,0);
         var stallTimeStat=" ";
         for (var l=0;l<stallLengthList.length; l++){
            stallTimeStat+= "Stalled at: (s): "+ stallTimeList[l].toFixed(2) + " Stall Length: "+stallLengthList[l]+"<br/>";
