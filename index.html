@@ -578,10 +578,10 @@
      var stallSummaryStats = "";
      if (stallLengthList.length >0){
      	//calculate stall stats!!
-        var minStall = Math.min.apply(null,stallLengthList);
-        var maxStall = Math.max.apply(null,stallLengthList);
+        var minStall = Math.min(Math.min.apply(null,stallLengthList),0);
+        var maxStall = Math.max(Math.max.apply(null,stallLengthList),0);
         var sum = stallLengthList.reduce(function(a, b) { return a + b; });
-        var avgStall = sum/stallLengthList.length;
+        var avgStall = Math.min(sum/stallLengthList.length,0);
         var stallTimeStat=" ";
         for (var l=0;l<stallLengthList.length; l++){
            stallTimeStat+= "Stalled at: (s): "+ stallTimeList[l].toFixed(2) + " Stall Length: "+stallLengthList[l]+"<br/>";
