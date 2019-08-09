@@ -21,6 +21,33 @@
 	<div id="WPTStartTime" style ="display:none">
 	 WPT data here
 	 </div>
+    <div id="WPTStallTotal" style ="display:none">
+	 WPT data here
+	 </div>
+    <div id="WPTStallTotalTime" style ="display:none">
+	 WPT data here
+	 </div>
+	 <div id="WPTminStall" style ="display:none">
+	 WPT data here
+	 </div>
+	 <div id="WPTmaxStall" style ="display:none">
+	 WPT data here
+	 </div>
+    <div id="WPTavgStall" style ="display:none">
+	 WPT data here
+	 </div>
+	 <div id="WPTBufferPercentDanger" style ="display:none">
+	 WPT data here
+	 </div>
+	 <div id="WPTBufferPercentLow" style ="display:none">
+	 WPT data here
+	 </div>	 
+    <div id="WPTBufferPercentSafe" style ="display:none">
+	 WPT data here
+	 </div>
+	 <div id="WPTBitrateChangeCount" style ="display:none">
+	 WPT data here
+	 </div>   	 
    <div id="video">
    </div>
    <div id="images1"></div>
@@ -648,6 +675,15 @@
                        +"}";
     document.getElementById("WPTData").innerHTML = jsonResults;
     document.getElementById("WPTStartTime").innerHTML = videoStartTime;
+    document.getElementById("WPTStallTotal").innerHTML = stallCounter;
+    document.getElementById("WPTStallTotalTime").innerHTML = stallTimeSum;
+    document.getElementById("WPTminStall").innerHTML = minStall;
+    document.getElementById("WPTmaxStall").innerHTML = maxStall;
+    document.getElementById("WPTavgStall").innerHTML = avgStall;
+    document.getElementById("WPTBufferPercentDanger").innerHTML = percentDanger;
+    document.getElementById("WPTBufferPercentLow").innerHTML = percentLow;
+    document.getElementById("WPTBufferPercentSafe").innerHTML = percentSafe;
+    document.getElementById("WPTBitrateChangeCount").innerHTML = bitrateChangeCount;
     jsonResults
      console.log(jsonResults); 
      clearInterval(jsInterval);                                         
