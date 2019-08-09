@@ -56,3 +56,44 @@ Where did I come up with these metrics for danger and low? I made a good educate
 
 When the buffer level is really low, there is a possibility that it will empty, and the video will stall.
 The most recent stall length is displayed, as is the total count of stalls (and the total elapsed time)
+
+### Using WebPageTest
+
+If you (like me) love using WebPageTest to get metrics on page load, StreamOrNot can report the streaming data via custom metrics. Once the video is completed, the video results are placed in hidden DIVs that WPT can read.
+
+To import this data into Webpage test, copy the following into the Advanced Settings:Custom:Custom Metrics: 
+```
+[videostats]
+return document.getElementById("WPTData").innerHTML;
+[videoStartTime] 
+return document.getElementById("WPTStartTime").innerHTML;
+[videoStallTotal] 
+return document.getElementById("WPTStallTotal").innerHTML;
+[videoStallTotalTime] 
+return document.getElementById("WPTStallTotalTime").innerHTML;
+[videominStall] 
+return document.getElementById("WPTminStall").innerHTML;
+[videomaxStall] 
+return document.getElementById("WPTmaxStall").innerHTML;
+[videoavgStall] 
+return document.getElementById("WPTavgStall").innerHTML;
+[videoBufferPercentDanger] 
+return document.getElementById("WPTBufferPercentDanger").innerHTML;
+[videoBufferPercentLow] 
+return document.getElementById("WPTBufferPercentLow").innerHTML;
+[videoBufferPercentSafe] 
+return document.getElementById("WPTBufferPercentSafe").innerHTML;
+[videoBitrateChangeCount] 
+return document.getElementById("WPTBitrateChangeCount").innerHTML;
+```
+The first entry is a JSON object with all of the stats.  However, when testing with WPT - one typically runs multiple tests and collect the median value.  What's the median of a SJSON object?
+
+So, for convenience, the data is also supplied as individual stats.  
+
+#### Parsing the WPT data.  
+
+I have modified Andy Davies' [WPT Bulk Tester](https://github.com/andydavies/WPT-Bulk-Tester) to include the video stats.
+
+You can copy my [video enhanced version](https://docs.google.com/spreadsheets/d/1kxXSj2OzVVkBtJ75RHsvLAQFvvbrC_P9UkehxRR1xqI/edit?usp=sharing), and use it for your tests. **
+NB: that I am currently collecting the average of the video stats, and not the median.  As far as I can tell, the median values of custom metrics are simply the results of run 1- and not actually the median.
+**
