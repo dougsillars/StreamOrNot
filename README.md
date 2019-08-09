@@ -61,7 +61,7 @@ The most recent stall length is displayed, as is the total count of stalls (and 
 
 If you (like me) love using WebPageTest to get metrics on page load, StreamOrNot can report the streaming data via custom metrics. Once the video is completed, the video results are placed in hidden DIVs that WPT can read.
 
-To import this data into Webpage test, copy the following into the Advanced Settings:Custom:Custom Metrics: 
+To import the video results data into WPT, copy the following into the Advanced Settings:Custom:Custom Metrics: 
 ```
 [videostats]
 return document.getElementById("WPTData").innerHTML;
@@ -86,14 +86,12 @@ return document.getElementById("WPTBufferPercentSafe").innerHTML;
 [videoBitrateChangeCount] 
 return document.getElementById("WPTBitrateChangeCount").innerHTML;
 ```
-The first entry is a JSON object with all of the stats.  However, when testing with WPT - one typically runs multiple tests and collect the median value.  What's the median of a SJSON object?
-
-So, for convenience, the data is also supplied as individual stats.  
+The first entry is a JSON object with all of the stats.  However, when testing with WPT - one typically runs multiple tests and collect the median value.  What's the median value of a JSON object?  So, for (mostly my) convenience, each piece of data is also supplied as an individual stat.  
 
 #### Parsing the WPT data.  
 
 I have modified Andy Davies' [WPT Bulk Tester](https://github.com/andydavies/WPT-Bulk-Tester) to include the video stats.
 
-You can copy my [video enhanced version](https://docs.google.com/spreadsheets/d/1kxXSj2OzVVkBtJ75RHsvLAQFvvbrC_P9UkehxRR1xqI/edit?usp=sharing), and use it for your tests. **
-NB: that I am currently collecting the average of the video stats, and not the median.  As far as I can tell, the median values of custom metrics are simply the results of run 1- and not actually the median.
-**
+You can copy my [video enhanced version](https://docs.google.com/spreadsheets/d/1kxXSj2OzVVkBtJ75RHsvLAQFvvbrC_P9UkehxRR1xqI/edit?usp=sharing), and use it for your tests. 
+
+**NB: The tool is currently collecting the average of the video stats and not the median.  As far as I can tell, the median values of custom metrics are simply the results of run 1,  and not actually the median value.  While averages are far from perfect - it is at least an aggregate stat.**
