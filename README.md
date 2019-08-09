@@ -83,6 +83,8 @@ return document.getElementById("WPTBufferPercentDanger").innerHTML;
 return document.getElementById("WPTBufferPercentLow").innerHTML;
 [videoBufferPercentSafe] 
 return document.getElementById("WPTBufferPercentSafe").innerHTML;
+[videoBufferMax] 
+return document.getElementById("WPTBufferMax").innerHTML;
 [videoBitrateChangeCount] 
 return document.getElementById("WPTBitrateChangeCount").innerHTML;
 ```
@@ -92,6 +94,6 @@ The first entry is a JSON object with all of the stats.  However, when testing w
 
 I have modified Andy Davies' [WPT Bulk Tester](https://github.com/andydavies/WPT-Bulk-Tester) to include the video stats.
 
-You can copy my [video enhanced version](https://docs.google.com/spreadsheets/d/1kxXSj2OzVVkBtJ75RHsvLAQFvvbrC_P9UkehxRR1xqI/edit?usp=sharing), and use it for your tests. 
+You can copy my [video enhanced version](https://docs.google.com/spreadsheets/d/1v73GZCFz3vA8NmzFk8R1nDHR6k-YUtA7c-jFfLqqfrE/edit?usp=sharing), and use it for your tests. 
 
-**NB: The tool is currently collecting the average of the video stats and not the median.  As far as I can tell, the median values of custom metrics are simply the results of run 1,  and not actually the median value.  While averages are far from perfect - it is at least an aggregate stat.**
+**NB: I have set the median metric to be the video startup time.  Typically WPT uses the SpeedIndex as the median. **
