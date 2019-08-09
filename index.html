@@ -18,6 +18,9 @@
    	<div id="WPTData" style ="display:none">
 	 WPT data here
 	 </div>
+	<div id="WPTstartTime" style ="display:none">
+	 WPT data here
+	 </div>
    <div id="video">
    </div>
    <div id="images1"></div>
@@ -304,7 +307,6 @@
      	}else{
      	  currentTime = myVideo.currentTime;
      	}
-     	
      	stallTimeList.push(currentTime);
      	var stall = "stalled at:" + currentTime+"s for: " +stallTime;
      	var stallTotal = "Stall count: " + stallCounter+ " time: " + stallTimeSum;
@@ -645,6 +647,7 @@
                        + ", \"bitrateChangeCount\":" + bitrateChangeCount
                        +"}";
     document.getElementById("WPTData").innerHTML = jsonResults;
+    document.getElementById("WPTStartTime").innerHTML = videoStartTime;
     jsonResults
      console.log(jsonResults); 
      clearInterval(jsInterval);                                         
