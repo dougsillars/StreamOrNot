@@ -45,6 +45,9 @@
     <div id="WPTBufferPercentSafe" style ="display:none">
 	 WPT data here
 	 </div>
+     <div id="WPTBufferMax" style ="display:none">
+	 WPT data here
+	 </div>
 	 <div id="WPTBitrateChangeCount" style ="display:none">
 	 WPT data here
 	 </div>   	 
@@ -670,6 +673,7 @@
                        + ", \"bufferPercentDanger\":"+ percentDanger
                        + ", \"bufferPercentLow\":"+ percentLow
                        + ", \"bufferPercentSafe\":"+ percentSafe
+                       + ", \"bufferMax\":"+ bufferMax
                        + ", \"videoStartTime\":" +videoStartTime
                        + ", \"bitrateChangeCount\":" + bitrateChangeCount
                        +"}";
@@ -684,6 +688,7 @@
     document.getElementById("WPTBufferPercentLow").innerHTML = percentLow;
     document.getElementById("WPTBufferPercentSafe").innerHTML = percentSafe;
     document.getElementById("WPTBitrateChangeCount").innerHTML = bitrateChangeCount;
+    document.getElementById("WPTBufferMax").innerHTML = bufferMax;
     jsonResults
      console.log(jsonResults); 
      clearInterval(jsInterval);                                         
