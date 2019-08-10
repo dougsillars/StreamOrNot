@@ -710,7 +710,8 @@
         //images are around 100 kb each     
         imageCount = Math.min(imageCount, 99);
         var httpString="https://";
-        if(HTTP2==false){
+        console.log(httpString + HTTP2);
+        if(HTTP2 =="false"){
         	httpString="http://";
         	console.log(httpString);
         }
