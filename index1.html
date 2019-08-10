@@ -176,8 +176,11 @@
    
     //get a video url from the query string. Fall back to NASA rocket if no video
     //load images and run JS to simulate other processes
+    //if the images are loaded with http2, they share the connection with the video (if all on Cloudinary)
+    //if HTTP2= flase, the images are delivered via HTTP1, and thus on another connection
     var imageCount=0;
     var js = false;
+    var HTTP2 = true;
     var videoUrl = "https://res.cloudinary.com/dougsillars/video/upload/sp_hd/v1562844864/rbsp_launch_720p_gz9zfm.m3u8";
     var urlParams = new URLSearchParams(window.location.search);
     if (urlParams.has('video')){
@@ -188,6 +191,9 @@
     	}
     if (urlParams.has('js')){
     	js = urlParams.get('js')
+    }	
+       if (urlParams.has('http2')){
+    	HTTP2 = urlParams.get('http2')
     }	
    
 
@@ -694,8 +700,8 @@
      clearInterval(jsInterval);                                         
      
     }
-    loadImages(imageCount);
-    function loadImages(imageCount){
+    loadImages(imageCount,HTTP2);
+    function loadImages(imageCount,HTTP2){
     //load a bunch of images
         var imageSource1="";
         var imageSource2="";
@@ -703,19 +709,23 @@
         //only allow 100 images
         //images are around 100 kb each     
         imageCount = Math.min(imageCount, 99);
+        var httpString="https://";
+        if(HTTP2=false){
+        	httpString="http://";
+        }
         for(var i=0;i<imageCount;i++){
            if(i<10){
            //only a few images to load before the video.. most to load afterward
               if(i%4==0){
-                imageSource1+= "<img width =\"10\" height = \"10\" src=\"http://res.cloudinary.com/dougsillars/image/upload/q_auto,w_100"+i+"/v1564860764/beach_sbzfma.jpg\">";
+                imageSource1+= "<img width =\"10\" height = \"10\" src=\""+httpString+"res.cloudinary.com/dougsillars/image/upload/q_auto,w_100"+i+"/v1564860764/beach_sbzfma.jpg\">";
               }else{
-                imageSource2+= "<img width =\"10\" height = \"10\" src=\"http://res.cloudinary.com/dougsillars/image/upload/q_auto,w_100"+i+"/v1564860764/beach_sbzfma.jpg\">";
+                imageSource2+= "<img width =\"10\" height = \"10\" src=\""+httpString+"res.cloudinary.com/dougsillars/image/upload/q_auto,w_100"+i+"/v1564860764/beach_sbzfma.jpg\">";
               }
             }else{
               if(i%2==0){
-                imageSource1+= "<img width =\"10\" height = \"10\" src=\"http://res.cloudinary.com/dougsillars/image/upload/q_auto,w_10"+i+"/v1564860764/beach_sbzfma.jpg\">";
+                imageSource1+= "<img width =\"10\" height = \"10\" src=\""+httpString+"res.cloudinary.com/dougsillars/image/upload/q_auto,w_10"+i+"/v1564860764/beach_sbzfma.jpg\">";
               }else{
-                imageSource2+= "<img width =\"10\" height = \"10\" src=\"http://res.cloudinary.com/dougsillars/image/upload/q_auto,w_10"+i+"/v1564860764/beach_sbzfma.jpg\">";
+                imageSource2+= "<img width =\"10\" height = \"10\" src=\""+httpString+"res.cloudinary.com/dougsillars/image/upload/q_auto,w_10"+i+"/v1564860764/beach_sbzfma.jpg\">";
               }
             
             }
