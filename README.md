@@ -5,20 +5,27 @@
 ## Sample Usage:  
 
 1. Open the [Stream or not](https://dougsillars.github.io/StreamOrNot/) page.
-2. A video from [NASA](https://nasa.gov/multimedia/hd/index.html) will begin to play.
+
+You can add your own video to test, or use the default video (of a [NASA](https://nasa.gov/multimedia/hd/index.html) rocket launch).
+
+
+
 3. You'll notice a number of Stats accumulating below the video on playback.
 4. When the video completes, a summary is presented
 5. Test the video at different network speeds using [devTools](https://css-tricks.com/throttling-the-network/) or a proxy like Charles.
 
 ## Advanced Features
+### API: every feature on the form is available as a query string to test.html.
 1. Add 'video' query parameter to the url pointing to your video to get stats on how well your video plays back
 >https://dougsillars.github.io/StreamOrNot/?video=https://res.cloudinary.com/dougsillars/video/upload/v1533591785/depend_p2ryou.mp4
 2. Videos rarely load alone on the web, and there are other assets competing for bandwidth.
     1. Add 'imagecount' query parameter.  Values can be from 0 to 99.  This will download the specified number of images while the video is playing back.
     2. You can see the images load right below the video, and again below all the text as 10x10 images.
     >https://dougsillars.github.io/StreamOrNot/?imagecount=25&video=https://res.cloudinary.com/dougsillars/video/upload/v1533591785/depend_p2ryou.mp4
-
-3. Oh, and JavaScript parsing will be going on - slowing down the browser, CPU, etc.
+3.  You can choose to deliver the images via HTTP or HTTP2 (http2 parameter).  Why do we care?  
+	1. Images delivered by HTTP2 will use just one HTTP connection.
+	2. Using HTTP1 (http2=false) better simulates many connections for files from many domains. It will max out the number of browser connections (if you use enough images.)
+4. Oh, and JavaScript parsing will be going on - slowing down the browser, CPU, etc.
     1. Add js=true query parameter.  This will compute a recursive fibonacci every 250ms during playback to simulate JS execution.
     2. You can see the parse times in the console.
 >https://dougsillars.github.io/StreamOrNot/?js=true&imagecount=25&video=https://res.cloudinary.com/dougsillars/video/upload/v1533591785/depend_p2ryou.mp4

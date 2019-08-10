@@ -1,6 +1,6 @@
 <html>
 <head>
-    <script type="text/javascript">
+    <script type="text/javascript" >
             var timerStart = Date.now();
     </script>
     <script src="./js/video.min.js"></script>
@@ -15,15 +15,47 @@
 </head>
 
 <body>
+   	<div id="WPTData" style ="display:none">
+	 WPT data here
+	 </div>
+	<div id="WPTStartTime" style ="display:none">
+	 WPT data here
+	 </div>
+    <div id="WPTStallTotal" style ="display:none">
+	 WPT data here
+	 </div>
+    <div id="WPTStallTotalTime" style ="display:none">
+	 WPT data here
+	 </div>
+	 <div id="WPTminStall" style ="display:none">
+	 WPT data here
+	 </div>
+	 <div id="WPTmaxStall" style ="display:none">
+	 WPT data here
+	 </div>
+    <div id="WPTavgStall" style ="display:none">
+	 WPT data here
+	 </div>
+	 <div id="WPTBufferPercentDanger" style ="display:none">
+	 WPT data here
+	 </div>
+	 <div id="WPTBufferPercentLow" style ="display:none">
+	 WPT data here
+	 </div>	 
+    <div id="WPTBufferPercentSafe" style ="display:none">
+	 WPT data here
+	 </div>
+     <div id="WPTBufferMax" style ="display:none">
+	 WPT data here
+	 </div>
+	 <div id="WPTBitrateChangeCount" style ="display:none">
+	 WPT data here
+	 </div>   	 
    <div id="video">
-    
    </div>
+   <div id="images1"></div>
   <p>
-
-   
-  
   <p>
-
    <div  class="buffered">
   		<span id="buffered-amount"></span>
 	</div>
@@ -32,7 +64,7 @@
 	</div>
 	
 	
-		<h2>
+	<h1>
        <div id="networkspeed"> 
 	   </div>
 	   <div id="playbackstate"> 
@@ -87,10 +119,11 @@
 	   </div>
 	   	   <div id="stoptime">
 	   </div>
-     </h2>
+     </h1>
+     <div id="images2"></div>
      <div id="events">
 	 </div>
-	 	
+	
   <style>
     .events{
       height: 200px;
@@ -142,11 +175,28 @@
    
    
     //get a video url from the query string. Fall back to NASA rocket if no video
+    //load images and run JS to simulate other processes
+    //if the images are loaded with http2, they share the connection with the video (if all on Cloudinary)
+    //if HTTP2= flase, the images are delivered via HTTP1, and thus on another connection
+    var imageCount=0;
+    var js = false;
+    var HTTP2 = true;
     var videoUrl = "https://res.cloudinary.com/dougsillars/video/upload/sp_hd/v1562844864/rbsp_launch_720p_gz9zfm.m3u8";
     var urlParams = new URLSearchParams(window.location.search);
     if (urlParams.has('video')){
     	videoUrl = urlParams.get('video')
     	}
+    if (urlParams.has('imagecount')){
+    	imageCount = urlParams.get('imagecount')
+    	}
+    if (urlParams.has('js')){
+    	js = urlParams.get('js')
+    }	
+       if (urlParams.has('http2')){
+    	HTTP2 = urlParams.get('http2')
+    }	
+   
+
     //testing streams
     //html5
     //videoUrl = "https://res.cloudinary.com/dougsillars/video/upload/v1546731047/campus5_ou5pmy.mp4";
@@ -179,11 +229,15 @@
       document.getElementById("video").innerHTML="<video id=\"my-video\" class=\"vjs-default-skin\" controls preload=\"auto\"  autoplay muted playsinline width=\"1080\"><source id=\"videosrc\" src=\""+videoUrl +"\"></video>";
     }
 
+
+
+
     //onloadstuff
     window.onload = function(){
-
+        
+       
+        
     	var videoStatus = "Not Started";
-
     	//set initial state
     	document.getElementById("playbackstate").innerHTML = videoStatus;
         //variables we need
@@ -194,6 +248,7 @@
     	var stallTimeSum =0;
     	var stallCounter = 0;
     	var stallLengthList =[];
+    	var stallTimeList = [];
     	var bufferTimer = 0;
     	var bufferDanger=0;
     	var bufferLow=0;
@@ -211,7 +266,11 @@
     	var bytesAtBitrateChange=0;
     	var dataPerBitrate =[];
     	var bitrateChangeTime=0;
-
+    	var bitrateChangeCount = 0;
+        var jsInterval;
+        var minStall=0;
+        var maxStall = 0;
+        var avgStall=0;
     	//if streaming, set videojs player
     	if (videoType == "stream"){
     	  
@@ -278,7 +337,14 @@
      	stallTimeSum+= stallTime;
      	stallCounter+=1;
      	stallLengthList.push(stallTime);
-     	var stall = "stalled for: " +stallTime;
+     	var currentTime;
+     	if (videoType=="stream"){
+     	  currentTime = myVideo.currentTime();
+     	}else{
+     	  currentTime = myVideo.currentTime;
+     	}
+     	stallTimeList.push(currentTime);
+     	var stall = "stalled at:" + currentTime+"s for: " +stallTime;
      	var stallTotal = "Stall count: " + stallCounter+ " time: " + stallTimeSum;
      	document.getElementById("stallstate").innerHTML = stall;
      	document.getElementById("stallsum").innerHTML = stallTotal;
@@ -290,8 +356,7 @@
         //this is the initial startup only run it once
         if  (videoStartTime>=0){
            var videoStart = playTime - scriptEvalStart;
-           var startupTime = "Video Start Time: " +videoStart;
-     	   document.getElementById("timetostart").innerHTML = startupTime;
+           var startupTime = "Video Start Time: " +videoStart;   
      	   console.log(startupTime);
            videoStartTime = videoStart/1000;
         }
@@ -308,6 +373,7 @@
            startWarning = "Videos that take " +videoStartTime+ " seconds to start up are likely to have large abandonment rates. Consider lowering the bitrate to speed startup time.";
            document.getElementById("timetostart").style.color = "red";
         }
+        document.getElementById("timetostart").innerHTML = startupTime;
         if (videoType =="stream"){
            //initial bitrate
            let qualityLevels = myVideo.qualityLevels();
@@ -426,9 +492,13 @@
         // var stroke = svg.createSVGStroke();          
         //increment the timer
         bufferTimer +=1;
+        bufferMax = parseFloat(bufferMax);
+        timeInBuffer = parseFloat(timeInBuffer);
         //report back important stuff about buffertime
+        //console.log("buffermax"+ bufferMax +"  Time in buffer:" +timeInBuffer);
         if (bufferMax < timeInBuffer){
        		bufferMax = timeInBuffer;
+
             }
         if (timeInBuffer < 10){
        		if (timeInBuffer < 5){
@@ -552,7 +622,7 @@
      //lets say if 5% of video playback is in danger, or 10% is in low ist should be flagged
      var dangerFlag = percentDanger - expectedDanger;
      var lowFlag = percentLow- expectedLow;
-     var stallWarning = "";
+     var stallWarning = "empty";
      if(dangerFlag >5 || lowFlag >10){
        //we've got potential stall situation
        stallWarning =" your video had very little video in the buffer during playback. consider lowering the bitrate."
@@ -560,12 +630,16 @@
      var stallSummaryStats = "";
      if (stallLengthList.length >0){
      	//calculate stall stats!!
-        var minStall = Math.min.apply(null,stallLengthList);
-        var maxStall = Math.max.apply(null,stallLengthList);
+        minStall = Math.min(Math.min.apply(null,stallLengthList),0);
+        maxStall = Math.max(Math.max.apply(null,stallLengthList),0);
         var sum = stallLengthList.reduce(function(a, b) { return a + b; });
-        var avgStall = sum/stallLengthList.length;
+        avgStall = Math.min(sum/stallLengthList.length,0);
+        var stallTimeStat=" ";
+        for (var l=0;l<stallLengthList.length; l++){
+           stallTimeStat+= "Stalled at: (s): "+ stallTimeList[l].toFixed(2) + " Stall Length: "+stallLengthList[l]+"<br/>";
+        }
         stallSummaryStats = "Minimum stall: "+ minStall+"ms. Max Stall: "+maxStall+ 
-                             " ms. Average Stall length: " +avgStall+" ms";
+                             " ms. Average Stall length: " +avgStall.toFixed(2)+" ms<br/>"+stallTimeStat +"<br/><br/>";
      
      }
      var bitrateStats="";
@@ -580,7 +654,7 @@
         dataPerBitrate.push([currentBitrate, bytesAtLastBitrate, bitrateChangeTime]);
 
      	//calculate stall stats!!
-        var bitrateChangeCount = dataPerBitrate.length;
+        bitrateChangeCount = dataPerBitrate.length;
         console.log(dataPerBitrate);
         var printBitrateArray="";
         for(var i=0;i<bitrateChangeCount;i++){
@@ -590,6 +664,8 @@
         
         bitrateStats = "Bitrate changed " +bitrateChangeCount+ " times during playback, here are the bitrate and byte usage:<br/>" + printBitrateArray;
      }
+     
+
                             
      var t = "total stalls: " +stallCounter + " stall time: " + stallTimeSum+"ms <br/>"
               +stallSummaryStats + 
@@ -598,11 +674,91 @@
                 "% Safe: "+ percentSafe +"%<br/>"
                 +stallWarning +"<br/>"+startWarning +"<br/>"+ bitrateStats;
     document.getElementById("events").innerHTML = t;
-
-     console.log(t);                                          
+    
+    var jsonResults = "{\"stallTotal\":"+stallCounter 
+                       + ", \"stallTotalTime\":"+  stallTimeSum  
+                       + ", \"minStall\":"+ minStall
+                       + ", \"maxStall\":"+ maxStall
+                       + ", \"avgStall\":"+ avgStall
+                       + ", \"bufferPercentDanger\":"+ percentDanger
+                       + ", \"bufferPercentLow\":"+ percentLow
+                       + ", \"bufferPercentSafe\":"+ percentSafe
+                       + ", \"bufferMax\":"+ bufferMax
+                       + ", \"videoStartTime\":" +videoStartTime
+                       + ", \"bitrateChangeCount\":" + bitrateChangeCount
+                       +"}";
+    document.getElementById("WPTData").innerHTML = jsonResults;
+    document.getElementById("WPTStartTime").innerHTML = videoStartTime;
+    document.getElementById("WPTStallTotal").innerHTML = stallCounter;
+    document.getElementById("WPTStallTotalTime").innerHTML = stallTimeSum;
+    document.getElementById("WPTminStall").innerHTML = minStall;
+    document.getElementById("WPTmaxStall").innerHTML = maxStall;
+    document.getElementById("WPTavgStall").innerHTML = avgStall;
+    document.getElementById("WPTBufferPercentDanger").innerHTML = percentDanger;
+    document.getElementById("WPTBufferPercentLow").innerHTML = percentLow;
+    document.getElementById("WPTBufferPercentSafe").innerHTML = percentSafe;
+    document.getElementById("WPTBitrateChangeCount").innerHTML = bitrateChangeCount;
+    document.getElementById("WPTBufferMax").innerHTML = bufferMax;
+    jsonResults
+     console.log(jsonResults); 
+     clearInterval(jsInterval);                                         
      
     }
-   
+    loadImages(imageCount,HTTP2);
+    function loadImages(imageCount,HTTP2){
+    //load a bunch of images
+        var imageSource1="";
+        var imageSource2="";
+        var mod2 = 0;
+        //only allow 100 images
+        //images are around 100 kb each     
+        imageCount = Math.min(imageCount, 99);
+        var httpString="https://";
+        console.log(httpString + HTTP2);
+        if(HTTP2 =="false"){
+        	httpString="http://";
+        	console.log(httpString);
+        }
+        for(var i=0;i<imageCount;i++){
+           if(i<10){
+           //only a few images to load before the video.. most to load afterward
+              if(i%4==0){
+                imageSource1+= "<img width =\"10\" height = \"10\" src=\""+httpString+"res.cloudinary.com/dougsillars/image/upload/q_auto,w_100"+i+"/v1564860764/beach_sbzfma.jpg\">";
+              }else{
+                imageSource2+= "<img width =\"10\" height = \"10\" src=\""+httpString+"res.cloudinary.com/dougsillars/image/upload/q_auto,w_100"+i+"/v1564860764/beach_sbzfma.jpg\">";
+              }
+            }else{
+              if(i%2==0){
+                imageSource1+= "<img width =\"10\" height = \"10\" src=\""+httpString+"res.cloudinary.com/dougsillars/image/upload/q_auto,w_10"+i+"/v1564860764/beach_sbzfma.jpg\">";
+              }else{
+                imageSource2+= "<img width =\"10\" height = \"10\" src=\""+httpString+"res.cloudinary.com/dougsillars/image/upload/q_auto,w_10"+i+"/v1564860764/beach_sbzfma.jpg\">";
+              }
+            
+            }
+ 
+         }
+     
+         
+         document.getElementById("images1").innerHTML = imageSource1;
+         document.getElementById("images2").innerHTML = imageSource2;
+    }
+    if(js){
+      var fib="";
+      //just adding random JS processing every 250ms
+        jsInterval= setInterval(function(){
+                  var delay = Math.random()*30;
+                  var fibStart = Date.now();
+                  fibonacci(delay);
+                  var fibEnd = Date.now();
+                  var fibTime = fibEnd-fibStart;
+                  //console.log("fibcalc ran for: " + fibTime);
+                  });
+    }
+    //fibnonacci sequence adds random JS processing to the fun
+        function fibonacci(num) {
+           if (num <= 1) return 1;
+           return fibonacci(num - 1) + fibonacci(num - 2);
+         }
    }
    
 	
