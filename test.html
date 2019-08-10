@@ -180,7 +180,7 @@
     //if HTTP2= flase, the images are delivered via HTTP1, and thus on another connection
     var imageCount=0;
     var js = false;
-    var HTTP2 = true;
+    var HTTP2 = false;
     var videoUrl = "https://res.cloudinary.com/dougsillars/video/upload/sp_hd/v1562844864/rbsp_launch_720p_gz9zfm.m3u8";
     var urlParams = new URLSearchParams(window.location.search);
     if (urlParams.has('video')){
