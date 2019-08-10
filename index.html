@@ -730,12 +730,12 @@
       var fib="";
       //just adding random JS processing every 250ms
         jsInterval= setInterval(function(){
-                  var delay = Math.random()*35;
+                  var delay = Math.random()*25;
                   var fibStart = Date.now();
                   fibonacci(delay);
                   var fibEnd = Date.now();
                   var fibTime = fibEnd-fibStart;
-                  //console.log("fibcalc ran for: " + fibTime)}, 250);
+                  console.log("fibcalc ran for: " + fibTime)}, 250);
                   });
     }
     //fibnonacci sequence adds random JS processing to the fun
