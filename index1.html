@@ -712,6 +712,7 @@
         var httpString="https://";
         if(HTTP2=false){
         	httpString="http://";
+        	console.log(httpString);
         }
         for(var i=0;i<imageCount;i++){
            if(i<10){
@@ -745,7 +746,7 @@
                   fibonacci(delay);
                   var fibEnd = Date.now();
                   var fibTime = fibEnd-fibStart;
-                  console.log("fibcalc ran for: " + fibTime);
+                  //console.log("fibcalc ran for: " + fibTime);
                   });
     }
     //fibnonacci sequence adds random JS processing to the fun
