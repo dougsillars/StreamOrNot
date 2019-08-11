@@ -48,6 +48,9 @@
      <div id="WPTBufferMax" style ="display:none">
 	 WPT data here
 	 </div>
+     <div id="WPTBufferAtStart" style ="display:none">
+	 WPT data here
+	 </div>
 	 <div id="WPTBitrateChangeCount" style ="display:none">
 	 WPT data here
 	 </div>   	 
@@ -253,6 +256,7 @@
     	var bufferDanger=0;
     	var bufferLow=0;
     	var bufferSafe=0;
+    	var bufferStart=0;
     	//metadataloaded at startup
     	var startWarning="";
     	var loadedTime=0;
@@ -330,6 +334,7 @@
       videoStatus = "playing"
       document.getElementById("playbackstate").innerHTML = videoStatus;
       var playTime =  Date.now();
+      
       if(videoStopTime >0){
      	//this could be a stall
      	var stallTime = (playTime - videoStopTime);
@@ -359,6 +364,9 @@
            var startupTime = "Video Start Time: " +videoStart;   
      	   console.log(startupTime);
            videoStartTime = videoStart/1000;
+           //deteriming how much has been buffered at startup
+           bufferStart = myVideo.bufferedEnd();
+           
         }
      	if (videoStartTime <10){
      		if(videoStartTime <5){
@@ -699,6 +707,7 @@
     document.getElementById("WPTBufferPercentSafe").innerHTML = percentSafe;
     document.getElementById("WPTBitrateChangeCount").innerHTML = bitrateChangeCount;
     document.getElementById("WPTBufferMax").innerHTML = bufferMax;
+    document.getElementById("WPTBufferAtStart").innerHTML = bufferStart;
     jsonResults
      console.log(jsonResults); 
      clearInterval(jsInterval);                                         

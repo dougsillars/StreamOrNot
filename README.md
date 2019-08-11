@@ -92,6 +92,8 @@ return document.getElementById("WPTBufferPercentLow").innerHTML;
 return document.getElementById("WPTBufferPercentSafe").innerHTML;
 [videoBufferMax] 
 return document.getElementById("WPTBufferMax").innerHTML;
+[videoBufferStart] 
+return document.getElementById("WPTBufferAtStart").innerHTML;
 [videoBitrateChangeCount] 
 return document.getElementById("WPTBitrateChangeCount").innerHTML;
 ```
