@@ -222,12 +222,16 @@
     attributes += " preload=\""+preload +"\" ";
     
     if(urlParams.has('controls')){
-    	controls = true;
-    	attributes += " controls ";
+    	if (urlParams.get('controls') == true){
+    	  controls = true;
+    	  attributes += " controls ";
+    	}
     }
     if(urlParams.has('poster')){
-    	poster = true;
-    	attributes += " poster=\"https://res.cloudinary.com/dougsillars/image/upload/q_auto,w_1080/v1564860764/beach_sbzfma.jpg\"";
+    	if (urlParams.get('poster') == true){
+    	  poster = true;
+    	  attributes += " poster=\"https://res.cloudinary.com/dougsillars/image/upload/q_auto,w_1080/v1564860764/beach_sbzfma.jpg\"";
+        }
     }
     if(urlParams.has('height')){
     	height = urlParams.get('height');
