@@ -106,3 +106,7 @@ I have modified Andy Davies' [WPT Bulk Tester](https://github.com/andydavies/WPT
 You can copy my [video enhanced version](https://docs.google.com/spreadsheets/d/1v73GZCFz3vA8NmzFk8R1nDHR6k-YUtA7c-jFfLqqfrE/edit?usp=sharing), and use it for your tests. 
 
 **NB: I have set the median metric to be the video startup time.  Typically WPT uses the SpeedIndex as the median. **
+
+### YouTube Tutorial
+
+https://youtu.be/wH9HhmbfnhA
