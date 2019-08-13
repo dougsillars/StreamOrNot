@@ -4,9 +4,7 @@
 
 ## Sample Usage:  
 
-1. Open the [Stream or not](https://dougsillars.github.io/StreamOrNot/) page.
-
-You can add your own video to test, or use the default video (of a [NASA](https://nasa.gov/multimedia/hd/index.html) rocket launch).
+1. Open the [Stream or not](https://dougsillars.github.io/StreamOrNot/) page.  You can add your own video to test, or use the default video (of a [NASA](https://nasa.gov/multimedia/hd/index.html) rocket launch).
 2. There are a lot of parameters you can play with to affect how the video appears and how it plays back.  To start just submit the default parameters.
 
 3. As the video starts to play, you'll notice a number of Stats accumulating below the video on playback.
