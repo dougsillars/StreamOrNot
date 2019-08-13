@@ -12,7 +12,6 @@
 5. Test the video at different network speeds using [devTools](https://css-tricks.com/throttling-the-network/) or a proxy like Charles.
 6.  Now go back, and try it with your videos to see how well they play back.
 
-## Advanced Features
 ### API: every feature on the form is available as a query string to test.html.
 1. Add 'video' query parameter to the url pointing to your video to get stats on how well your video plays back
 >https://dougsillars.github.io/StreamOrNot/?video=https://res.cloudinary.com/dougsillars/video/upload/v1533591785/depend_p2ryou.mp4
@@ -31,7 +30,7 @@
 
   
   
-### What Does It All Mean?
+## What Does It All Mean?
 
 ![screenshot of top entries](/images/View1.png)
 
