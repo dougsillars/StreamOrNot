@@ -109,4 +109,4 @@ You can copy my [video enhanced version](https://docs.google.com/spreadsheets/d/
 
 ### YouTube Tutorial
 
-https://youtu.be/wH9HhmbfnhA
+[![](http://img.youtube.com/vi/wH9HhmbfnhA/0.jpg)](http://www.youtube.com/watch?v=wH9HhmbfnhA "")
