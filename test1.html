@@ -434,10 +434,10 @@
            //deteriming how much has been buffered at startup
            if (videoType=="stream"){
              bufferStart = myVideo.bufferedEnd();
-             videoLength = myVideo.Duration();
+             videoLength = myVideo.duration();
            } else{
              bufferStart = myVideo.buffered.end(myVideo.buffered.length - 1);
-             videoLength = myVideo.Duration;
+             videoLength = myVideo.duration;
            }       
            console.log("buffer at start:"+ bufferStart);
            console.log("video length:"+ videoLength);
