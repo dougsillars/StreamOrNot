@@ -1,5 +1,15 @@
 <html>
 <head>
+    <!-- Global site tag (gtag.js) - Google Analytics -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=UA-145603134-1"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+
+      gtag('config', 'UA-145603134-1');
+    </script>
+
     <script type="text/javascript" >
             var timerStart = Date.now();
     </script>
@@ -187,7 +197,7 @@
     var imageCount=0;
     var js = false;
     var HTTP2 = false;
-    var videoUrl = "https://res.cloudinary.com/dougsillars/video/upload/sp_hd/v1562844864/rbsp_launch_720p_gz9zfm.m3u8";
+    var videoUrl = "https://res.cloudinary.com/streamornot/video/upload/sp_hd/v1565685788/rbsp_launch_720p_gz9zfm_dmaijg.m3u8";
     //attributes in HTML5 that I can add or remove
     var preload="auto";
     var controls = false;
@@ -222,12 +232,16 @@
     attributes += " preload=\""+preload +"\" ";
     
     if(urlParams.has('controls')){
-    	controls = true;
-    	attributes += " controls ";
+    	if (urlParams.get('controls') == "true"){
+    	  controls = true;
+    	  attributes += " controls ";
+    	}
     }
     if(urlParams.has('poster')){
-    	poster = true;
-    	attributes += " poster=\"https://res.cloudinary.com/dougsillars/image/upload/q_auto,w_1080/v1564860764/beach_sbzfma.jpg\"";
+    	if (urlParams.get('poster') == "true"){
+    	  poster = true;
+    	  attributes += " poster=\"https://res.cloudinary.com/streamornot/image/upload/v1565682314/beach_oko0am.jpg\"";
+        }
     }
     if(urlParams.has('height')){
     	height = urlParams.get('height');
@@ -268,6 +282,7 @@
       console.log("html 5 video"); 
       videoType = "html5";
       document.getElementById("video").innerHTML="<video id=\"my-video\" class=\"vjs-default-skin\"  "+attributes+"  autoplay muted playsinline><source id=\"videosrc\" src=\""+videoUrl +"\"></video>";
+      console.log("<video id=\"my-video\" class=\"vjs-default-skin\"  "+attributes+"  autoplay muted playsinline><source id=\"videosrc\" src=\""+videoUrl +"\"></video>");
     }
 
 
@@ -322,6 +337,7 @@
 		  });
           let qualityLevels = myVideo.qualityLevels();
          // myVideo.on('play', playStart);
+         myVideo.on('error', error);
           myVideo.on('playing', playStart);
           myVideo.on('loadedmetadata', metadataLoad);
           myVideo.on('timeupdate', statusUpdate);
@@ -350,6 +366,12 @@
          
        }
     
+    //if there is an error
+    function error(){
+       console.log("error occurred!");
+       console.log("Error " + myVideo.error.code + "; details: " + myVideo.error.message);
+    
+    }
     
     
     //measures when metadata is loaded
@@ -428,6 +450,7 @@
         if (videoType =="stream"){
            //initial bitrate
            let qualityLevels = myVideo.qualityLevels();
+           
            if(qualityLevels.selectedIndex>=0){
              currentBitrate = qualityLevels[qualityLevels.selectedIndex].bitrate;
     	     currentHeight = qualityLevels[qualityLevels.selectedIndex].height;
@@ -588,6 +611,7 @@
          } 
 
          let qualityLevels = myVideo.qualityLevels();
+         
          //console.log(qualityLevels);
          if(currentBitrate >0){
            //see if the bitrate has changed?
@@ -776,15 +800,15 @@
            if(i<10){
            //only a few images to load before the video.. most to load afterward
               if(i%4==0){
-                imageSource1+= "<img width =\"10\" height = \"10\" src=\""+httpString+"res.cloudinary.com/dougsillars/image/upload/q_auto,w_100"+i+"/v1564860764/beach_sbzfma.jpg\">";
+                imageSource1+= "<img width =\"10\" height = \"10\" src=\""+httpString+"res.cloudinary.com/streamornot/image/upload/q_auto,w_100"+i+"/v1565682314/beach_oko0am.jpg\">";
               }else{
-                imageSource2+= "<img width =\"10\" height = \"10\" src=\""+httpString+"res.cloudinary.com/dougsillars/image/upload/q_auto,w_100"+i+"/v1564860764/beach_sbzfma.jpg\">";
+                imageSource2+= "<img width =\"10\" height = \"10\" src=\""+httpString+"res.cloudinary.com/streamornot/image/upload/q_auto,w_100"+i+"/v1565682314/beach_oko0am.jpg\">";
               }
             }else{
               if(i%2==0){
-                imageSource1+= "<img width =\"10\" height = \"10\" src=\""+httpString+"res.cloudinary.com/dougsillars/image/upload/q_auto,w_10"+i+"/v1564860764/beach_sbzfma.jpg\">";
+                imageSource1+= "<img width =\"10\" height = \"10\" src=\""+httpString+"res.cloudinary.com/streamornot/image/upload/q_auto,w_10"+i+"/v1565682314/beach_oko0am.jpg\">";
               }else{
-                imageSource2+= "<img width =\"10\" height = \"10\" src=\""+httpString+"res.cloudinary.com/dougsillars/image/upload/q_auto,w_10"+i+"/v1564860764/beach_sbzfma.jpg\">";
+                imageSource2+= "<img width =\"10\" height = \"10\" src=\""+httpString+"res.cloudinary.com/streamornot/image/upload/q_auto,w_10"+i+"/v1565682314/beach_oko0am.jpg\">";
               }
             
             }
