@@ -66,7 +66,10 @@
 	 </div>
 	 <div id="WPTBitrateChangeCount" style ="display:none">
 	 WPT data here
-	 </div>   	 
+	 </div> 
+	 	 <div id="WPTVideoDuration" style ="display:none">
+	 WPT data here
+	 </div>  	 
    <div id="video">
    </div>
    <div id="images1"></div>
@@ -314,6 +317,7 @@
     	var startWarning="";
     	var loadedTime=0;
     	var metadataLoadTime=0;
+    	var videoLength=0;
     	var currentBitrate = 0;
     	var currentHeight = 0;
     	var currentWidth = 0;
@@ -337,6 +341,7 @@
 		  });
           let qualityLevels = myVideo.qualityLevels();
          // myVideo.on('play', playStart);
+         myVideo.on('error', error);
           myVideo.on('playing', playStart);
           myVideo.on('loadedmetadata', metadataLoad);
           myVideo.on('timeupdate', statusUpdate);
@@ -352,9 +357,11 @@
             document.getElementById("events").appendChild(x);
            } 
           }
+        //html5  
         else{
           myVideo = document.getElementById('my-video');
          // myVideo.addEventListener('play', playStart);
+          myVideo.addEventListener('error', error);
           myVideo.addEventListener('playing', playStart);
           myVideo.addEventListener('loadedmetadata', metadataLoad);
           myVideo.addEventListener('timeupdate', statusUpdate);
@@ -365,6 +372,12 @@
          
        }
     
+    //if there is an error
+    function error(){
+       console.log("error occurred!");
+       console.log("Error " + myVideo.error.code + "; details: " + myVideo.error.message);
+    
+    }
     
     
     //measures when metadata is loaded
@@ -412,6 +425,7 @@
       }
       else if (videoStopTime ==0){
         //this is the initial startup only run it once
+        
         if  (videoStartTime>=0){
            var videoStart = playTime - scriptEvalStart;
            var startupTime = "Video Start Time: " +videoStart;   
@@ -420,11 +434,13 @@
            //deteriming how much has been buffered at startup
            if (videoType=="stream"){
              bufferStart = myVideo.bufferedEnd();
+             videoLength = myVideo.duration();
            } else{
              bufferStart = myVideo.buffered.end(myVideo.buffered.length - 1);
+             videoLength = myVideo.duration;
            }       
            console.log("buffer at start:"+ bufferStart);
-           
+           console.log("video length:"+ videoLength);
         }
      	if (videoStartTime <10){
      		if(videoStartTime <5){
@@ -769,6 +785,7 @@
     document.getElementById("WPTBitrateChangeCount").innerHTML = bitrateChangeCount;
     document.getElementById("WPTBufferMax").innerHTML = bufferMax;
     document.getElementById("WPTBufferAtStart").innerHTML = bufferStart;
+    document.getElementById("WPTVideoDuration").innerHTML = videoLength;
     jsonResults
      console.log(jsonResults); 
      clearInterval(jsInterval);                                         
