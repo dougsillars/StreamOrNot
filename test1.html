@@ -357,7 +357,7 @@
         else{
           myVideo = document.getElementById('my-video');
          // myVideo.addEventListener('play', playStart);
-         myVideo.on('error', error);
+          myVideo.addEventListener('error', error);
           myVideo.addEventListener('playing', playStart);
           myVideo.addEventListener('loadedmetadata', metadataLoad);
           myVideo.addEventListener('timeupdate', statusUpdate);
