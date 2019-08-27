@@ -93,6 +93,8 @@ return document.getElementById("WPTBufferMax").innerHTML;
 return document.getElementById("WPTBufferAtStart").innerHTML;
 [videoBitrateChangeCount] 
 return document.getElementById("WPTBitrateChangeCount").innerHTML;
+[videoDuration] 
+return document.getElementById("WPTVideoDuration").innerHTML;
 ```
 The first entry is a JSON object with all of the stats.  However, when testing with WPT - one typically runs multiple tests and collect the median value.  What's the median value of a JSON object?  So, for (mostly my) convenience, each piece of data is also supplied as an individual stat.  
 
