@@ -25,51 +25,21 @@
 </head>
 
 <body>
-   	<div id="WPTAttributeList" style ="display:none">
-	 WPT data here
-	 </div>
-   	<div id="WPTData" style ="display:none">
-	 WPT data here
-	 </div>
-	<div id="WPTStartTime" style ="display:none">
-	 WPT data here
-	 </div>
-    <div id="WPTStallTotal" style ="display:none">
-	 WPT data here
-	 </div>
-    <div id="WPTStallTotalTime" style ="display:none">
-	 WPT data here
-	 </div>
-	 <div id="WPTminStall" style ="display:none">
-	 WPT data here
-	 </div>
-	 <div id="WPTmaxStall" style ="display:none">
-	 WPT data here
-	 </div>
-    <div id="WPTavgStall" style ="display:none">
-	 WPT data here
-	 </div>
-	 <div id="WPTBufferPercentDanger" style ="display:none">
-	 WPT data here
-	 </div>
-	 <div id="WPTBufferPercentLow" style ="display:none">
-	 WPT data here
-	 </div>	 
-    <div id="WPTBufferPercentSafe" style ="display:none">
-	 WPT data here
-	 </div>
-     <div id="WPTBufferMax" style ="display:none">
-	 WPT data here
-	 </div>
-     <div id="WPTBufferAtStart" style ="display:none">
-	 WPT data here
-	 </div>
-	 <div id="WPTBitrateChangeCount" style ="display:none">
-	 WPT data here
-	 </div> 
-	 	 <div id="WPTVideoDuration" style ="display:none">
-	 WPT data here
-	 </div>  	 
+   	<div id="WPTAttributeList" style ="display:none">WPT data here</div>
+   	<div id="WPTData" style ="display:none">WPT data here</div>
+   	<div id="WPTStartTime" style ="display:none">WPT data here</div>
+    <div id="WPTStallTotal" style ="display:none"> WPT data here</div>
+    <div id="WPTStallTotalTime" style ="display:none"> WPT data here</div>
+	<div id="WPTminStall" style ="display:none">WPT data here</div>
+	 <div id="WPTmaxStall" style ="display:none">WPT data here</div>
+    <div id="WPTavgStall" style ="display:none"> WPT data here</div>
+	 <div id="WPTBufferPercentDanger" style ="display:none">WPT data here</div>
+	 <div id="WPTBufferPercentLow" style ="display:none">WPT data here</div>	 
+    <div id="WPTBufferPercentSafe" style ="display:none">WPT data here</div>
+     <div id="WPTBufferMax" style ="display:none">WPT data here</div>
+     <div id="WPTBufferAtStart" style ="display:none">WPT data here </div>
+	 <div id="WPTBitrateChangeCount" style ="display:none">WPT data here</div> 
+	  <div id="WPTVideoDuration" style ="display:none">WPT data here</div>  	 
    <div id="video">
    </div>
    <div id="images1"></div>
@@ -332,6 +302,7 @@
         var minStall=0;
         var maxStall = 0;
         var avgStall=0;
+        var volume;
     	//if streaming, set videojs player
     	if (videoType == "stream"){
     	  
@@ -431,16 +402,24 @@
            var startupTime = "Video Start Time: " +videoStart;   
      	   console.log(startupTime);
            videoStartTime = videoStart/1000;
+           //write to div to collect in WPT
+           document.getElementById("WPTStartTime").innerHTML = videoStartTime;
            //deteriming how much has been buffered at startup
            if (videoType=="stream"){
              bufferStart = myVideo.bufferedEnd();
              videoLength = myVideo.duration();
+              volume = myVideo.volume(0.2);
            } else{
              bufferStart = myVideo.buffered.end(myVideo.buffered.length - 1);
              videoLength = myVideo.duration;
-           }       
+             volume = myVideo.volume = 0.2;
+           }
+           //write this to div for WPT now - if video is too long I'll never know the size      
+           document.getElementById("WPTBufferAtStart").innerHTML = bufferStart;
+           document.getElementById("WPTVideoDuration").innerHTML = videoLength; 
            console.log("buffer at start:"+ bufferStart);
            console.log("video length:"+ videoLength);
+           console.log("video volume:"+ videoLength);
         }
      	if (videoStartTime <10){
      		if(videoStartTime <5){
@@ -773,7 +752,7 @@
                        + ", \"bufferStart\":" + bufferStart
                        +"}";
     document.getElementById("WPTData").innerHTML = jsonResults;
-    document.getElementById("WPTStartTime").innerHTML = videoStartTime;
+    
     document.getElementById("WPTStallTotal").innerHTML = stallCounter;
     document.getElementById("WPTStallTotalTime").innerHTML = stallTimeSum;
     document.getElementById("WPTminStall").innerHTML = minStall;
@@ -784,8 +763,8 @@
     document.getElementById("WPTBufferPercentSafe").innerHTML = percentSafe;
     document.getElementById("WPTBitrateChangeCount").innerHTML = bitrateChangeCount;
     document.getElementById("WPTBufferMax").innerHTML = bufferMax;
-    document.getElementById("WPTBufferAtStart").innerHTML = bufferStart;
-    document.getElementById("WPTVideoDuration").innerHTML = videoLength;
+    
+
     jsonResults
      console.log(jsonResults); 
      clearInterval(jsInterval);                                         
