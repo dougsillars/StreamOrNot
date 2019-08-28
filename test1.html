@@ -420,15 +420,22 @@
            console.log("buffer at start:"+ bufferStart);
            console.log("video length:"+ videoLength);
            
+           var audioMsg="";
            //does video have audio
             if(hasAudio(myVideo)) {
             	audio=true;
-        		console.log("video has audio");
+            	audioMsg = "video has audio";
+        		console.log(audioMsg);
 			} else{
 				audio=false;
-    			console.log("video doesn't have audio");
+				audioMsg= "video doesn't have audio";
+    			console.log(audioMsg);
 			}		
             document.getElementById("WPTAudio").innerHTML = audio;
+            var x = document.createElement("P");                        
+      		var t = document.createTextNode(audioMsg);
+      		x.appendChild(t);                                           
+      		document.getElementById("events").appendChild(x);
            
            
 
