@@ -39,7 +39,8 @@
      <div id="WPTBufferMax" style ="display:none">WPT data here</div>
      <div id="WPTBufferAtStart" style ="display:none">WPT data here </div>
 	 <div id="WPTBitrateChangeCount" style ="display:none">WPT data here</div> 
-	  <div id="WPTVideoDuration" style ="display:none">WPT data here</div>  	 
+	  <div id="WPTVideoDuration" style ="display:none">WPT data here</div>
+	  <div id="WPTAudio" style ="display:none">WPT data here</div>    	 
    <div id="video">
    </div>
    <div id="images1"></div>
@@ -302,7 +303,8 @@
         var minStall=0;
         var maxStall = 0;
         var avgStall=0;
-        var volume;
+        var audio;
+       
     	//if streaming, set videojs player
     	if (videoType == "stream"){
     	  
@@ -408,18 +410,28 @@
            if (videoType=="stream"){
              bufferStart = myVideo.bufferedEnd();
              videoLength = myVideo.duration();
-              volume = myVideo.volume();
            } else{
              bufferStart = myVideo.buffered.end(myVideo.buffered.length - 1);
              videoLength = myVideo.duration;
-             volume = myVideo.volume;
            }
            //write this to div for WPT now - if video is too long I'll never know the size      
            document.getElementById("WPTBufferAtStart").innerHTML = bufferStart;
            document.getElementById("WPTVideoDuration").innerHTML = videoLength; 
            console.log("buffer at start:"+ bufferStart);
            console.log("video length:"+ videoLength);
-           console.log("video volume:"+ videoLength);
+           
+           //does video have audio
+            if(hasAudio(myVideo)) {
+            	audio=true;
+        		console.log("video has audio");
+			} else{
+				audio=false;
+    			console.log("video doesn't have audio");
+			}		
+            document.getElementById("WPTAudio").innerHTML = audio;
+           
+           
+
         }
      	if (videoStartTime <10){
      		if(videoStartTime <5){
@@ -454,6 +466,13 @@
       }
     }
     
+    //does video have audio.
+    //code from https://stackoverflow.com/questions/21270048/html5-video-how-to-detect-when-there-is-no-audio-track
+    function hasAudio (video) {
+    	return video.mozHasAudio ||
+    	Boolean(video.webkitAudioDecodedByteCount) ||
+    	Boolean(video.audioTracks && video.audioTracks.length);
+	}
 
     //ID when the video is waiting
     function waiting() {
