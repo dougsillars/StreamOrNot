@@ -408,11 +408,11 @@
            if (videoType=="stream"){
              bufferStart = myVideo.bufferedEnd();
              videoLength = myVideo.duration();
-              volume = myVideo.volume(0.2);
+              volume = myVideo.volume();
            } else{
              bufferStart = myVideo.buffered.end(myVideo.buffered.length - 1);
              videoLength = myVideo.duration;
-             volume = myVideo.volume = 0.2;
+             volume = myVideo.volume;
            }
            //write this to div for WPT now - if video is too long I'll never know the size      
            document.getElementById("WPTBufferAtStart").innerHTML = bufferStart;
