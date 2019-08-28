@@ -61,6 +61,10 @@
 	   </div>
 	   <div id="timetostart"> 
 	   </div>
+	   <div id="VideoHasAudio"> 
+	   </div>
+	   <div id="bufferstart"> 
+	   </div>
        <div id="videotime"> 
 	   </div>
 	   <div id="bufferstate"></div>
@@ -414,28 +418,30 @@
              bufferStart = myVideo.buffered.end(myVideo.buffered.length - 1);
              videoLength = myVideo.duration;
            }
-           //write this to div for WPT now - if video is too long I'll never know the size      
+           //write this to div for WPT now - if video is too long I'll never know the size
+           var bufferAtStart = "Video Buffer At Start: "+ bufferStart;    
            document.getElementById("WPTBufferAtStart").innerHTML = bufferStart;
            document.getElementById("WPTVideoDuration").innerHTML = videoLength; 
            console.log("buffer at start:"+ bufferStart);
            console.log("video length:"+ videoLength);
            
            var audioMsg="";
-           //does video have audio
-            if(hasAudio(myVideo)) {
-            	audio=true;
-            	audioMsg = "video has audio";
-        		console.log(audioMsg);
-			} else{
-				audio=false;
-				audioMsg= "video doesn't have audio";
-    			console.log(audioMsg);
+           //does video have audio (only for HTML5 ATM)
+            if(videoType == "html5"){
+            	if(hasAudio(myVideo)) {
+            		audio=true;
+            		audioMsg = "video has audio";
+        			
+				} else{
+					audio=false;
+					audioMsg= "Video has no audio";
+    				
+    			}
+    			 console.log(audioMsg);
+    			 document.getElementById("WPTAudio").innerHTML = audio;
+				document.getElementById("VideoHasAudio").innerHTML = audioMsg;
 			}		
-            document.getElementById("WPTAudio").innerHTML = audio;
-            var x = document.createElement("P");                        
-      		var t = document.createTextNode(audioMsg);
-      		x.appendChild(t);                                           
-      		document.getElementById("events").appendChild(x);
+           
            
            
 
@@ -454,6 +460,7 @@
            document.getElementById("timetostart").style.color = "red";
         }
         document.getElementById("timetostart").innerHTML = startupTime;
+        document.getElementById("bufferstart").innerHTML = bufferAtStart;
         if (videoType =="stream"){
            //initial bitrate
            let qualityLevels = myVideo.qualityLevels();
@@ -476,9 +483,9 @@
     //does video have audio.
     //code from https://stackoverflow.com/questions/21270048/html5-video-how-to-detect-when-there-is-no-audio-track
     function hasAudio (video) {
-    	return video.mozHasAudio ||
-    	Boolean(video.webkitAudioDecodedByteCount) ||
-    	Boolean(video.audioTracks && video.audioTracks.length);
+    		return video.mozHasAudio ||
+    		Boolean(video.webkitAudioDecodedByteCount) ||
+    		Boolean(video.audioTracks && video.audioTracks.length);    	
 	}
 
     //ID when the video is waiting
