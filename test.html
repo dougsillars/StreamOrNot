@@ -263,20 +263,7 @@
       console.log("<video id=\"my-video\" class=\"vjs-default-skin\"  "+attributes+"  autoplay muted playsinline><source id=\"videosrc\" src=\""+videoUrl +"\"></video>");
     }
 
-	//get ffprobe data about the video
-	var ffprobeUrl = "http://ec2-54-171-101-65.eu-west-1.compute.amazonaws.com:1437/probe?url="+videoUrl;
-	fetch(ffprobeUrl)
-	.then((resp) => resp.json())
-	.then(function(data){
-	   console.log(JSON.stringify(data);
-	   //get teh data I want - place them into divs
 	
-	 })
-	 .catch(function {
-          console.log('ffprobe request failed')
-      });
-	 
-
 
     //onloadstuff
     window.onload = function(){
@@ -368,6 +355,21 @@
     
     }
     
+    
+    //get ffprobe data about the video
+	var ffprobeUrl = "http://ec2-54-171-101-65.eu-west-1.compute.amazonaws.com:1437/probe?url="+videoUrl;
+	fetch(ffprobeUrl)
+	.then((resp) => resp.json())
+	.then(function(data){
+	   console.log(JSON.stringify(data);
+	   //get teh data I want - place them into divs
+	
+	 });
+	 .catch(function {
+          console.log('ffprobe request failed');
+      });
+	 
+
     
     //measures when metadata is loaded
     function metadataLoad(){
