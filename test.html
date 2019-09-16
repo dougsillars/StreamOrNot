@@ -356,7 +356,7 @@
     
     }
     	//get ffprobe data about the video
-	var ffprobeUrl = "http://ec2-54-171-101-65.eu-west-1.compute.amazonaws.com:1437/probe?url="+videoUrl;
+	var ffprobeUrl = "https://streamclarity.com/probe?url="+videoUrl;
 	fetch(ffprobeUrl)
 	.then((resp) => resp.json())
 	.then(function(data){
