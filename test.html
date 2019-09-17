@@ -373,7 +373,7 @@
 	fetch(ffprobeUrl)
 	.then((resp) => resp.json())
 	.then(function(data){
-	   console.log(JSON.stringify(data));
+	   //console.log(JSON.stringify(data));
 	   streamCount = data.format.nb_streams;
 	   for (var i=0;i<streamCount;i++){
 	   	  if (data.streams[i].codec_type == "video"){
