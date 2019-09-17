@@ -40,7 +40,15 @@
      <div id="WPTBufferAtStart" style ="display:none">WPT data here </div>
 	 <div id="WPTBitrateChangeCount" style ="display:none">WPT data here</div> 
 	  <div id="WPTVideoDuration" style ="display:none">WPT data here</div>
-	  <div id="WPTAudio" style ="display:none">WPT data here</div>    	 
+	  <div id="WPTAudio" style ="display:none">WPT data here</div>
+	  
+	  <div id="WPTSizeKB" style ="display:none">WPT data here</div>
+	  <div id="WPTVideoHeight" style ="display:none">WPT data here</div>
+	  <div id="WPTVideoWidth" style ="display:none">WPT data here</div> 
+	  <div id="WPTVideoBR" style ="display:none">WPT data here</div>
+	  <div id="WPTVideoAspectRatio" style ="display:none">WPT data here</div>   	 
+      
+   
    <div id="video">
    </div>
    <div id="images1"></div>
@@ -55,6 +63,8 @@
 	
 	
 	<h1>
+       <div id="videostats"> 
+	   </div>
        <div id="networkspeed"> 
 	   </div>
 	   <div id="playbackstate"> 
@@ -229,12 +239,7 @@
     	width = urlParams.get('width');	
     }
     attributes += " width=\""+ width+"\" ";       
-    //testing streams
-    //html5
-    //videoUrl = "https://res.cloudinary.com/dougsillars/video/upload/v1546731047/campus5_ou5pmy.mp4";
-    //stream
-    //videoUrl = "https://res.cloudinary.com/dougsillars/video/upload/sp_hd/v1546731047/campus5_ou5pmy.m3u8";
-    
+
     //get extension
     var videoExt = videoUrl.substr(1+videoUrl.lastIndexOf(".")).toLowerCase();
 
@@ -308,6 +313,14 @@
         var maxStall = 0;
         var avgStall=0;
         var audio;
+        //ffprobe variables
+        var bitrate=0;
+        var sizeKB = 0;
+        var videoWidth = 0;
+        var videoHeight=0;
+        var aspectratio="";
+        var streamCount = 0;
+        
        
     	//if streaming, set videojs player
     	if (videoType == "stream"){
@@ -361,8 +374,25 @@
 	.then((resp) => resp.json())
 	.then(function(data){
 	   console.log(JSON.stringify(data));
+	   streamCount = data.format.nb_streams;
+	   for (var i=0;i<streamCount;i++){
+	   	  if (data.streams[i].codec_type == "video"){
+	   	    videoWidth = data.streams[i].width;;
+            videoHeight= data.streams[i].height;
+	   	    aspectratio = data.streams[i].display_aspect_ratio;
+	   	  }
+	   }
+	    bitrate= data.format.bit_rate;
+        sizeKB = data.format.size;
+        
+       
 	   //get teh data I want - place them into divs
-	
+	   document.getElementById("WPTVideoWidth").innerHTML = videoWidth; 
+	   document.getElementById("WPTVideoHeight").innerHTML = videoHeight;
+	   document.getElementById("WPTVideoAspectRatio").innerHTML = aspectratio;
+	   document.getElementById("WPTVideoBR").innerHTML = bitrate;
+	   document.getElementById("WPTSizeKB").innerHTML = sizeKB;
+	   document.getElementById("videostats").innerHTML = "Video is: "+videoWidth +"x"+videoHeight+" & "+sizeKB +"KB";
 	 });
 	 
     
