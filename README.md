@@ -105,7 +105,16 @@ return document.getElementById("WPTVideoAspectRatio").innerHTML;
 return document.getElementById("WPTVideoBR").innerHTML;
 [videosizeKB]
 return document.getElementById("WPTSizeKB").innerHTML;
-
+[videoVideoDisp]
+return document.getElementById("WPTVideoDisp").innerHTML;
+[videoAudioDisp]
+return document.getElementById("WPTAudioDisp").innerHTML;
+[videoStreamCount]
+return document.getElementById("WPTStreamCount").innerHTML;
+[videoStreamType]
+return document.getElementById("WPTStreamType").innerHTML;
+[videocodec]
+return document.getElementById("WPTVideoCodec").innerHTML;
 ```
 The first entry is a JSON object with all of the stats.  However, when testing with WPT - one typically runs multiple tests and collect the median value.  What's the median value of a JSON object?  So, for (mostly my) convenience, each piece of data is also supplied as an individual stat.  
 

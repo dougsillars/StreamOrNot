@@ -47,7 +47,12 @@
 	  <div id="WPTVideoWidth" style ="display:none">WPT data here</div> 
 	  <div id="WPTVideoBR" style ="display:none">WPT data here</div>
 	  <div id="WPTVideoAspectRatio" style ="display:none">WPT data here</div>   	 
-      
+      <div id="WPTVideoDisp" style ="display:none">WPT data here</div> 
+      <div id="WPTAudioDisp" style ="display:none">WPT data here</div> 
+      <div id="WPTStreamCount" style ="display:none">WPT data here</div> 
+      <div id="WPTStreamType" style ="display:none">WPT data here</div> 
+      <div id="WPTVideoCodec" style ="display:none">WPT data here</div> 
+
    
    <div id="video">
    </div>
@@ -320,6 +325,10 @@
         var videoHeight=0;
         var aspectratio="";
         var streamCount = 0;
+        var videoDisp = "";
+        var audioDisp = "";
+        var streamType="";
+        var videoCodec="";
         
        
     	//if streaming, set videojs player
@@ -379,8 +388,20 @@
 	   	  if (data.streams[i].codec_type == "video"){
 	   	    videoWidth = data.streams[i].width;;
             videoHeight= data.streams[i].height;
+            aspectratio = data.streams[i].display_aspect_ratio;
+            videoDisp = data.streams[i].disposition;
 	   	    aspectratio = data.streams[i].display_aspect_ratio;
+	   	    videoCodec = data.streams[i].codec_name;
+	   	  }else{
+	   	  //audio
+	   	  audioDisp = data.streams[i].disposition;
 	   	  }
+	   	  if(streamType=""){
+	   	     streamType = data.streams[i].codec_type;
+	   	  }else{
+	   	     streamtype+= ", "+ data..streams[i].codec_type;
+	   	  }
+	   	  
 	   }
 	    bitrate= data.format.bit_rate;
         sizeKB = data.format.size;
@@ -392,6 +413,11 @@
 	   document.getElementById("WPTVideoAspectRatio").innerHTML = aspectratio;
 	   document.getElementById("WPTVideoBR").innerHTML = bitrate;
 	   document.getElementById("WPTSizeKB").innerHTML = sizeKB;
+	   document.getElementById("WPTVideoDisp").innerHTML = videoDisp;
+	   document.getElementById("WPTAudioDisp").innerHTML = audioDisp; 
+	   document.getElementById("WPTStreamCount").innerHTML = streamCount;
+	   document.getElementById("WPTStreamType").innerHTML = streamType;
+	   document.getElementById("WPTVideoCodec").innerHTML = videoCodec;
 	   document.getElementById("videostats").innerHTML = "Video is: "+videoWidth +"x"+videoHeight+" & "+sizeKB +"KB";
 	 });
 	 
