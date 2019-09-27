@@ -216,8 +216,8 @@
        if (urlParams.has('http2')){
     	HTTP2 = urlParams.get('http2');
     }
-       if (urlParams.has('responsive')){
-    	resp = urlParams.get('responsive');
+       if (urlParams.has('resp')){
+    	resp = urlParams.get('resp');
     }	
     if (urlParams.has('preload')){
         if(urlParams.get('preload') == "auto" ||urlParams.get('preload') =="metadata" || urlParams.get('preload') == "none"){
@@ -338,9 +338,10 @@
     	if (videoType == "stream"){
     	  
       	    myVideo = videojs('my-video', {
-  			responsive:resp,
   			html5:{hls: {enableLowInitialPlaylist:true}}
 		  });
+		  console.log("video is responsive: "+resp);
+		  myVideo.responsive(resp);
           let qualityLevels = myVideo.qualityLevels();
          // myVideo.on('play', playStart);
          myVideo.on('error', error);
