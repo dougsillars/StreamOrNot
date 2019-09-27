@@ -201,7 +201,7 @@
     var height;
     var width = "1080";
     var attributes = "";
-    
+    var resp = true;
     
     var urlParams = new URLSearchParams(window.location.search);
     if (urlParams.has('video')){
@@ -215,6 +215,9 @@
     }	
        if (urlParams.has('http2')){
     	HTTP2 = urlParams.get('http2');
+    }
+       if (urlParams.has('responsive')){
+    	resp = urlParams.get('responsive');
     }	
     if (urlParams.has('preload')){
         if(urlParams.get('preload') == "auto" ||urlParams.get('preload') =="metadata" || urlParams.get('preload') == "none"){
@@ -335,7 +338,7 @@
     	if (videoType == "stream"){
     	  
       	    myVideo = videojs('my-video', {
-  			responsive:true,
+  			responsive:resp,
   			html5:{hls: {enableLowInitialPlaylist:true}}
 		  });
           let qualityLevels = myVideo.qualityLevels();
