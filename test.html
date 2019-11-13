@@ -266,13 +266,13 @@
       streamType = "application/dash+xml";
       
       }
-      document.getElementById("video").innerHTML="<video-js id=\"my-video\" class=\"vjs-default-skin\" "+attributes+"  autoplay muted playsinline ><source id=\"videosrc\" src=\""+videoUrl +"\" type=\""+streamType+"\"></video-js>";
+      document.getElementById("video").innerHTML="<video-js id=\"my-video\" class=\"vjs-default-skin\" "+attributes+"  autoplay muted playsinline ><source importance=\"high\" id=\"videosrc\" src=\""+videoUrl +"\" type=\""+streamType+"\"></video-js>";
       console.log("<video-js id=\"my-video\" class=\"vjs-default-skin\" "+attributes+"  autoplay muted playsinline ><source id=\"videosrc\" src=\""+videoUrl +"\" type=\""+streamType+"\"></video-js>");
     }else{
       //static video = so add html5 video tags to video div
       console.log("html 5 video"); 
       videoType = "html5";
-      document.getElementById("video").innerHTML="<video id=\"my-video\" class=\"vjs-default-skin\"  "+attributes+"  autoplay muted playsinline><source id=\"videosrc\" src=\""+videoUrl +"\"></video>";
+      document.getElementById("video").innerHTML="<video id=\"my-video\" class=\"vjs-default-skin\"  "+attributes+"  autoplay muted playsinline><source importance=\"high\" id=\"videosrc\" src=\""+videoUrl +"\"></video>";
       console.log("<video id=\"my-video\" class=\"vjs-default-skin\"  "+attributes+"  autoplay muted playsinline><source id=\"videosrc\" src=\""+videoUrl +"\"></video>");
     }
 
