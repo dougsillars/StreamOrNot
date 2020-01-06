@@ -1,11 +1,11 @@
 <html>
 <body>
 <style>
-	@media only screen and (max-width: 500px) {
+	@media only screen and (max-width: 992px) {
 		#hero-video { display: none; }   /*. hide video on mobile screens*/
 		#mobile-hero-image {display: inline-block;}
 	}
-	@media (min-width: 501px){
+	@media (min-width: 993px){
 		#hero-video {display: inline-block; }
 		#mobile-hero-image {display: none;}
 	}
@@ -32,7 +32,7 @@
 	var videoLocation  = document.getElementById("hero-video");
 	window.onload = videoSource(videoLocation, "https://res.cloudinary.com/dougsillars/video/upload/vc_auto/v1578147110/kauke-fall-45_feyvqx.mp4");
 	function videoSource(element, src) {
-		if(window.innerWidth >500){
+		if(window.innerWidth >992){
 			var source = document.createElement('source'); //document.getElementById("hero-video").createElement("source");
 			source.src = src;
 			videoLocation.appendChild(source);
