@@ -1,0 +1,27 @@
+<html>
+<body>
+<style>
+	@media only screen and (max-width: 500px) {
+		#hero-video { display: none; }   /*. hide video on mobile screens*/
+		#mobile-hero-image {display: inline-block;}
+	}
+	@media (min-width: 501px){
+		#hero-video {display: inline-block; }
+		#mobile-hero-image {display: none;}
+	}
+	
+</style>
+	
+<div>
+<video id = "hero-video"
+	   loop 
+	   muted
+	   autoplay 
+	   width="720"
+	   poster="https://res.cloudinary.com/dougsillars/video/upload/vc_auto/v1578147110/kauke-fall-45_feyvqx.jpg">
+   <source src="https://res.cloudinary.com/dougsillars/video/upload/vc_auto/v1578147110/kauke-fall-45_feyvqx.mp4">
+</video>
+<img id ="mobile-hero-image" width = "720" src = "https://res.cloudinary.com/dougsillars/video/upload/vc_auto/v1578147110/kauke-fall-45_feyvqx.jpg">
+</div>
+</body>
+</html>
