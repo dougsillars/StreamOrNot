@@ -20,23 +20,27 @@
 	   loop 
 	   muted
 	   controls
-	  
+	  autoplay
 	   width="720"
 	   poster="https://res.cloudinary.com/dougsillars/video/upload/vc_auto/v1578147110/kauke-fall-45_feyvqx.jpg">
-   <source src="https://res.cloudinary.com/dougsillars/video/upload/vc_auto/v1578147110/kauke-fall-45_feyvqx.mp4">
+	   <source src = "">
 </video>
 <img id ="mobile-hero-image" width = "720" src = "https://res.cloudinary.com/dougsillars/video/upload/vc_auto/v1578147110/kauke-fall-45_feyvqx.jpg">
 </div>
 
 <script>
-	showVideo;
-	window.addEventListener('resize', showVideo);
-	function showVideo() {
-	  console.log(window.innerWidth);
-	  if(window.innerWidth <500){
-		  document.getElementById("hero-video").setAttribute("autoplay", "true");
-		  
-		 // document.getElementById("hero-video").play();
+	var videoLocation  = document.getElementById("hero-video");
+	window.onload = videoSource(videoLocation, "https://res.cloudinary.com/dougsillars/video/upload/vc_auto/v1578147110/kauke-fall-45_feyvqx.mp4");
+	//window.addEventListener('resize', videoSource);
+	function videoSource(element, src) {
+		if(window.innerWidth >500){
+
+			var source = document.createElement('source'); //document.getElementById("hero-video").createElement("source");
+			source.src = src;
+			videoLocation.appendChild(source);
+	    	var count = 1;
+			console.log(count);
+			count++;
 	  };
 	}
 
