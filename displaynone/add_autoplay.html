@@ -16,10 +16,9 @@
 	
 <div>
 <video id = "hero-video"
-		preload="none"
+	   preload="none"
 	   loop 
 	   muted
-	   autoplay
 	   controls
 	   width="720"
 	   poster="https://res.cloudinary.com/dougsillars/video/upload/vc_auto/v1578147110/kauke-fall-45_feyvqx.jpg">
@@ -29,12 +28,12 @@
 </div>
 
 <script>
-	var videoLocation  = document.getElementById("hero-video");
+	
 	window.onload = addAutoplay();
-	//window.addEventListener('resize', videoSource);
+	var videoLocation  = document.getElementById("hero-video");
 	function addAutoplay() {
-		if(window.innerWidth <500){
-			videoLocation.removeAttribute("autoplay");
+		if(window.innerWidth >500){
+			videoLocation.setAttribute("autoplay","");
 	  };
 	}
 
